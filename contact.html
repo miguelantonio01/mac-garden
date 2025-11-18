@@ -1,83 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contacto – MAC Garden</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Contacto – MAC Garden</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header>
-  <img src="https://i.imgur.com/2CqLcnS.png" alt="MAC Garden Logo" />
+<header class="header">
+    <div class="logo-container">
+        <img src="images/logo.png" class="logo">
+        <h1 class="site-title">MAC Garden</h1>
+    </div>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="products.html">Productos</a></li>
+            <li><a href="services.html">Servicios</a></li>
+            <li><a href="about.html">Nosotros</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
 </header>
 
-<nav>
-  <a href="index.html#inicio">Inicio</a>
-  <a href="services.html">Servicios</a>
-  <a href="nosotros.html">Nosotros</a>
-  <a href="contacto.html" class="active">Contacto</a>
-</nav>
+<section class="page-section">
+    <h2>Contacto</h2>
 
-<div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
-<div id="cart-panel">
-  <button onclick="toggleCart()" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:28px;cursor:pointer;">✖</button>
-  <h2 style="margin-top:48px;font-size:22px">Tu Carrito</h2>
-  <div id="cart-items"></div>
-  <a id="cart-whatsapp" class="cart-btn" href="#" target="_blank">Enviar por WhatsApp</a>
-</div>
+    <p><strong>WhatsApp:</strong> <a href="https://wa.me/18496079790">849-607-9790</a></p>
+    <p><strong>Ubicación:</strong> San Cristóbal, República Dominicana</p>
 
-<section style="text-align:center;padding:40px 20px;background:var(--muted);">
-  <h1 style="font-size:40px;margin:0 0 6px">Contacto</h1>
-  <p style="font-size:18px;margin:4px 0 0">Escríbenos para pedidos, cotizaciones o consultas técnicas.</p>
+    <h3>Formulario</h3>
+
+    <form action="https://formspree.io/f/YOUR_ID" method="POST">
+        <input type="text" name="nombre" placeholder="Nombre">
+        <input type="email" name="email" placeholder="Correo">
+        <textarea name="mensaje" placeholder="Mensaje"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+
 </section>
 
-<div class="container" style="padding-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-  <div class="card">
-    <h3>📞 WhatsApp</h3>
-    <p><a href="https://wa.me/18496079790" target="_blank">849 607 9790</a></p>
-  </div>
-
-  <div class="card">
-    <h3>📧 Correo</h3>
-    <p>mac.garden.rd@gmail.com</p>
-  </div>
-
-  <div class="card">
-    <h3>📍 Ubicación</h3>
-    <p>San Cristóbal, República Dominicana</p>
-    <p><a href="https://www.google.com/maps/search/San+Cristobal+Republica+Dominicana" target="_blank">Ver en Google Maps</a></p>
-  </div>
-
-  <div class="card">
-    <h3>🕒 Horarios</h3>
-    <p>Lun – Vie: 8:00 – 17:00</p>
-    <p>Sáb: 9:00 – 13:00</p>
-    <p>Dom: Cerrado</p>
-  </div>
-
-  <div class="card" style="grid-column:1/-1">
-    <h3>✉️ Envíanos un mensaje</h3>
-    <!-- FORMSPREE: reemplaza YOUR_FORM_ID por tu id de Formspree si lo deseas -->
-    <form action="mailto:mariar004006@gmail.com" method="POST" enctype="text/plain">
-      <label style="display:block;margin-bottom:8px">Nombre</label>
-      <input name="name" required style="width:100%;padding:10px;border-radius:6px;border:1px solid #e6f3ea;margin-bottom:8px" />
-      <label style="display:block;margin-bottom:8px">Correo</label>
-      <input name="email" type="email" required style="width:100%;padding:10px;border-radius:6px;border:1px solid #e6f3ea;margin-bottom:8px" />
-      <label style="display:block;margin-bottom:8px">Mensaje</label>
-      <textarea name="message" rows="5" required style="width:100%;padding:10px;border-radius:6px;border:1px solid #e6f3ea;margin-bottom:8px"></textarea>
-      <button class="btn" type="submit">Enviar</button>
-    </form>
-    <p style="font-size:13px;margin-top:8px;color:#666">Si no usas Formspree, cambia el atributo <code>action</code> por tu endpoint o por <code>mailto:tu@correo.com</code></p>
-  </div>
-</div>
-
-<footer>MAC Garden © 2025 — República Dominicana</footer>
-
-<div class="whatsapp-float"><a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a></div>
-
-<script src="products.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
+
 

@@ -1,82 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Servicios – MAC Garden</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Servicios – MAC Garden</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header>
-  <img src="https://i.imgur.com/2CqLcnS.png" alt="MAC Garden Logo" />
+<!-- HEADER -->
+<header class="header">
+    <div class="logo-container">
+        <img src="images/logo.png" class="logo">
+        <h1 class="site-title">MAC Garden</h1>
+    </div>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="products.html">Productos</a></li>
+            <li><a href="services.html">Servicios</a></li>
+            <li><a href="about.html">Nosotros</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
 </header>
 
-<nav>
-  <a href="index.html#inicio">Inicio</a>
-  <a href="services.html" class="active">Servicios</a>
-  <a href="nosotros.html">Nosotros</a>
-  <a href="contacto.html">Contacto</a>
-</nav>
+<section class="page-section">
+    <h2>Servicios de MAC Garden</h2>
 
-<div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
-<div id="cart-panel">
-  <button onclick="toggleCart()" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:28px;cursor:pointer;">✖</button>
-  <h2 style="margin-top:48px;font-size:22px">Tu Carrito</h2>
-  <div id="cart-items"></div>
-  <a id="cart-whatsapp" class="cart-btn" href="#" target="_blank">Enviar por WhatsApp</a>
-</div>
+    <div class="service-card">
+        <h3>🌱 Producción profesional de esquejes</h3>
+        <p>Propagación controlada con técnicas avanzadas: hormonas, nebulización y sustratos especiales.</p>
+    </div>
 
-<section style="text-align:center;padding:40px 20px;background:var(--muted);">
-  <h1 style="font-size:40px;margin:0 0 6px">Servicios profesionales</h1>
-  <p style="font-size:18px;margin:4px 0 0">Producción, asesoría y soluciones en horticultura y paisajismo.</p>
+    <div class="service-card">
+        <h3>🪴 Venta al por mayor</h3>
+        <p>Descuentos especiales para viveros, jardinerías y paisajistas.</p>
+    </div>
+
+    <div class="service-card">
+        <h3>📘 Asesorías de propagación</h3>
+        <p>Capacitación enraizamiento, viverismo y mantenimiento.</p>
+    </div>
+
+    <div class="service-card">
+        <h3>🌸 Instalación de jardines pequeños</h3>
+        <p>Diseño y siembra, especialmente para patios de poco espacio.</p>
+    </div>
+
+    <div class="service-card">
+        <h3>📩 Pedidos personalizados</h3>
+        <a href="https://wa.me/18496079790" class="whatsapp-btn">Solicitar vía WhatsApp</a>
+    </div>
 </section>
 
-<div class="container" style="padding-top:26px">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-    <div class="card">
-      <h3>🌱 Producción de esquejes</h3>
-      <p>Reproducción masiva y controlada de buganvilias, suculentas, pothos, philodendron y más. Calidad profesional para venta y proyectos.</p>
-      <p><strong>Incluye:</strong> selección de plantas madre, enraizamiento, endurecimiento y embalaje.</p>
-    </div>
-
-    <div class="card">
-      <h3>📦 Venta al por mayor</h3>
-      <p>Precios especiales para viveros, tiendas y paisajistas. Pedidos a medida, empaques para transporte y logística para entrega local.</p>
-      <p><strong>MOQ:</strong> negociable según especie y temporada.</p>
-    </div>
-
-    <div class="card">
-      <h3>🧪 Asesorías en propagación</h3>
-      <p>Capacitaciones y asesorías técnicas (talleres o consultorías) sobre enraizamiento, sustratos, hormonas de enraizamiento y control de enfermedades.</p>
-      <p>Ofrecemos guías prácticas y asistencia in situ si se requiere.</p>
-    </div>
-
-    <div class="card">
-      <h3>🏡 Instalación de jardines pequeños</h3>
-      <p>Diseño e instalación de jardines domésticos y terrazas: selección de especies, plantación, sistema de riego y mantenimiento inicial.</p>
-      <p>Opciones: estilo tropical, minimalista, verticales y muros verdes.</p>
-    </div>
-
-    <div class="card">
-      <h3>📱 Pedidos especiales por WhatsApp</h3>
-      <p>¿Necesitas una variedad o cantidad especial? Haz tu pedido por WhatsApp y te enviamos disponibilidad, fotos y precio.</p>
-      <a class="btn" href="https://wa.me/18496079790" target="_blank">Pedir por WhatsApp</a>
-    </div>
-
-    <div class="card">
-      <h3>🔬 Laboratorio y mejoras</h3>
-      <p>Apoyo con protocolos de enraizamiento, mejora genética básica y pruebas de vigor. Ideal para proyectos que buscan escala y calidad uniforme.</p>
-    </div>
-  </div>
-</div>
-
-<footer>MAC Garden © 2025 — República Dominicana</footer>
-
-<div class="whatsapp-float"><a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a></div>
-
-<script src="products.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
 

@@ -1,69 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nosotros – MAC Garden</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Nosotros – MAC Garden</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header>
-  <img src="https://i.imgur.com/2CqLcnS.png" alt="MAC Garden Logo" />
+<header class="header">
+    <div class="logo-container">
+        <img src="images/logo.png" class="logo">
+        <h1 class="site-title">MAC Garden</h1>
+    </div>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="products.html">Productos</a></li>
+            <li><a href="services.html">Servicios</a></li>
+            <li><a href="about.html">Nosotros</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
 </header>
 
-<nav>
-  <a href="index.html#inicio">Inicio</a>
-  <a href="services.html">Servicios</a>
-  <a href="nosotros.html" class="active">Nosotros</a>
-  <a href="contacto.html">Contacto</a>
-</nav>
+<section class="page-section">
+    <h2>Sobre MAC Garden</h2>
 
-<div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
-<div id="cart-panel">
-  <button onclick="toggleCart()" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:28px;cursor:pointer;">✖</button>
-  <h2 style="margin-top:48px;font-size:22px">Tu Carrito</h2>
-  <div id="cart-items"></div>
-  <a id="cart-whatsapp" class="cart-btn" href="#" target="_blank">Enviar por WhatsApp</a>
-</div>
+    <p>MAC Garden nace de la pasión por la propagación vegetal y el deseo de llenar los hogares con plantas sanas, fuertes y hermosas.</p>
 
-<section style="text-align:center;padding:40px 20px;background:var(--muted);">
-  <h1 style="font-size:40px;margin:0 0 6px">Sobre MAC Garden</h1>
-  <p style="font-size:18px;margin:4px 0 0">Producción profesional de plantas ornamentales y servicios de horticultura.</p>
+    <h3>Misión</h3>
+    <p>Producir esquejes de alta calidad y brindar soluciones profesionales de viverismo.</p>
+
+    <h3>Visión</h3>
+    <p>Convertirnos en el vivero líder de propagación en República Dominicana.</p>
+
+    <h3>Valores</h3>
+    <ul>
+        <li>Calidad</li>
+        <li>Confianza</li>
+        <li>Sustentabilidad</li>
+        <li>Pasión por la botánica</li>
+    </ul>
+
 </section>
 
-<div class="container" style="padding-top:26px">
-  <div class="card" style="margin-bottom:16px">
-    <h3>🌿 Quiénes somos</h3>
-    <p>MAC Garden nace como un proyecto urbano para producir esquejes de alta calidad y ofrecer soluciones de paisajismo y capacitación técnica en República Dominicana.</p>
-  </div>
-
-  <div class="card" style="margin-bottom:16px">
-    <h3>🚀 Misión</h3>
-    <p>Producir esquejes sanos y accesibles, promover prácticas sostenibles y apoyar a negocios locales con plantas de alta calidad.</p>
-  </div>
-
-  <div class="card" style="margin-bottom:16px">
-    <h3>🌎 Visión</h3>
-    <p>Convertirnos en una referencia nacional en reproducción de plantas ornamentales y expandir nuestro sistema de producción y servicios.</p>
-  </div>
-
-  <div class="card" style="margin-bottom:16px">
-    <h3>💚 Valores y compromiso ecológico</h3>
-    <p>Priorizamos técnicas sostenibles, uso responsable del agua, manejo integrado de plagas y selección de sustratos con bajo impacto ambiental.</p>
-  </div>
-
-  <div class="card" style="margin-bottom:16px">
-    <h3>👥 Nuestro equipo</h3>
-    <p>Contamos con técnicos en horticultura, especialistas en enraizamiento y atención al cliente para pedidos y logística.</p>
-  </div>
-</div>
-
-<footer>MAC Garden © 2025 — República Dominicana</footer>
-
-<div class="whatsapp-float"><a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a></div>
-
-<script src="products.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
+
