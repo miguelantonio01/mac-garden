@@ -4,79 +4,84 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MAC Garden — Esquejes y Plantas Tropicales</title>
+
 <style>
 :root{--blue:#0A4FFF;--green:#0AD18C;--dark:#033e1b;--bg:#ffffff;--muted:#f1fbf6}
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{margin:0;background:var(--bg);color:var(--dark)}
+
+/* HEADER */
 header{background:linear-gradient(90deg,var(--blue),var(--green));padding:16px;text-align:center}
 header img{height:70px}
+
+/* NAVBAR */
 nav{background:var(--muted);padding:10px;display:flex;gap:18px;justify-content:center;font-weight:600}
-nav a{text-decoration:none;color:var(--dark)}
+nav a{text-decoration:none;color:var(--dark);cursor:pointer}
+
+/* HERO */
 .hero{text-align:center;padding:40px 20px}
 .hero h1{font-size:36px;margin-bottom:8px}
+
+/* LAYOUT */
 .container{max-width:1100px;margin:0 auto;padding:20px}
+
+/* PRODUCT GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
 .card{background:#ffffff;border:1px solid #dff2e7;border-radius:10px;padding:10px;text-align:center}
 .card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
 .card h3{margin:8px 0;font-size:18px}
 .card .price{color:var(--blue);font-weight:700;margin:6px 0}
-.btn{background:var(--blue);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:700;margin-top:8px}
+.btn{background:var(--blue);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:700;margin-top:8px;cursor:pointer}
 .btn:hover{opacity:0.9}
-/* Carrito */
-#cart-panel{position:fixed;top:0;right:-400px;width:360px;height:100%;background:white;box-shadow:-2px 0 8px rgba(0,0,0,0.2);padding:20px;transition:0.3s;z-index:999;overflow-y:auto}
+
+/* SECCIONES OCULTAS */
+.section-box{
+    display:none;
+    background:white;
+    padding:20px;
+    margin:20px auto;
+    max-width:900px;
+    border:1px solid #dff2e7;
+    border-radius:10px;
+    animation:fade 0.3s;
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* CARRITO */
+#cart-panel{position:fixed;top:0;right:-400px;width:360px;height:100%;background:white;
+box-shadow:-2px 0 8px rgba(0,0,0,0.2);padding:20px;transition:0.3s;z-index:999;overflow-y:auto}
 #cart-panel.open{right:0}
 .cart-item{display:flex;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:6px}
 .cart-btn{background:var(--green);color:white;padding:10px;border-radius:8px;text-align:center;font-weight:700;text-decoration:none;display:block;margin-top:12px}
 .cart-top-btn{position:fixed;right:20px;top:20px;background:var(--green);color:white;padding:12px 14px;border-radius:10px;font-weight:700;cursor:pointer;z-index:900}
+
+/* FOOTER */
 footer{margin-top:40px;background:var(--blue);color:white;text-align:center;padding:14px}
+
+/* WHATSAPP */
 .whatsapp-float{position:fixed;right:18px;bottom:18px;z-index:900}
 .whatsapp-float a{display:flex;gap:10px;align-items:center;padding:12px 14px;background:linear-gradient(90deg,var(--green),#06b070);color:white;border-radius:999px;text-decoration:none;font-weight:700}
-/* FIX para que el menú sea clickeable */
-/* Reparación DEFINITIVA del menú */
-.navbar, .nav-links a {
-    position: relative !important;
-    z-index: 99999 !important;
-    pointer-events: auto !important;
-}
-
-header {
-    position: relative !important;
-    z-index: 1 !important;
-}
-
-/* Eliminar cualquier bloque invisible que impida clicks */
-* {
-    pointer-events: auto !important;
-}
-
-
 </style>
 </head>
+
 <body>
+
 <header>
   <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDQ4MCAxMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzBBNEZGRiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBBRDE4QyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyLDgpIj48Y2lyY2xlIGN4PSI0NCIgY3k9IjQ4IiByPSIzNCIgZmlsbD0idXJsKCNnMSkiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOCwzMikiIGZpbGw9IndoaXRlIj48cGF0aCBkPSJNMTAuMCAwIEMxMi4wIDgsIDIyLjAgOCwgMjQuMCAwIEMyNi4wIDgsIDM2LjAgOCwgMzguMCAwIEMzOC4wIDI4LCAxMC4wIDI4LCAxMC4wIDAgWiIgLz48L2c+PHRleHQgeD0iOTYiIHk9IjY0IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc2l6ZT0iMzYiIGZpbGw9IiMwMzNlMWIiPk1BQyA8dHNwYW4gZmlsbD0iIzBBNEZGRiI+R2FyZGVuPC90c3Bhbj48L3RleHQ+PHRleHQgeD0iOTYiIHk9IjkyIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMwMzYiPkVzcXVlamVzIOKAmCBPcm5hbWVudGFsZXMg4oCYIFRyb3BpY2FsPC90ZXh0PjwvZz48L3N2Zz4=" />
 </header>
 
-<nav class="navbar">
-    <div class="logo">MAC Garden</div>
-
-    <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="products.html">Productos</a></li>
-        <li><a href="services.html">Servicios</a></li>
-        <li><a href="about.html">Nosotros</a></li>
-        <li><a href="contact.html">Contacto</a></li>
-    </ul>
+<nav>
+    <a onclick="showSection('servicios')">Servicios</a>
+    <a onclick="showSection('nosotros')">Nosotros</a>
+    <a onclick="showSection('contacto')">Contacto</a>
+    <a onclick="hideAllSections()">Inicio</a>
 </nav>
 
 
 <div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
+
 <div id="cart-panel">
-  <button onclick="toggleCart()" 
-          style="position:absolute;top:10px;right:10px;
-                 background:none;border:none;font-size:24px;cursor:pointer;">
-    ✖
-  </button>
+  <button onclick="toggleCart()" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:24px;cursor:pointer;">✖</button>
 
   <h2 style="margin-top:38px">Tu Carrito</h2>
   <div id="cart-items"></div>
@@ -84,37 +89,54 @@ header {
 </div>
 
 
-<section id="inicio" class="hero">
+<section class="hero">
   <h1>Bienvenido a MAC Garden</h1>
   <p>Esquejes saludables, producción sostenible y venta directa por WhatsApp.</p>
 </section>
 
 <div class="container">
-  <h2 id="catalogo">Catálogo — Esquejes Disponibles</h2>
+  <h2>Catálogo — Esquejes Disponibles</h2>
   <div class="grid" id="product-grid"></div>
 </div>
 
+
+<!-- SECCION SERVICIOS -->
+<div id="servicios" class="section-box">
+  <h2>Servicios</h2>
+  <p>• Asesoría en plantas ornamentales<br>
+     • Producción de esquejes por pedido<br>
+     • Instalación de jardines tropicales<br>
+     • Mantenimiento de plantas</p>
+</div>
+
+<!-- SECCION NOSOTROS -->
+<div id="nosotros" class="section-box">
+  <h2>Nosotros</h2>
+  <p>MAC Garden nace con la visión de ofrecer esquejes saludables, plantas tropicales y producción sostenible desde San Cristóbal, República Dominicana.</p>
+</div>
+
+<!-- SECCION CONTACTO -->
+<div id="contacto" class="section-box">
+  <h2>Contacto</h2>
+  <p>Escríbenos por WhatsApp o déjanos tu mensaje.</p>
+  <a class="btn" href="https://wa.me/18496079790" target="_blank">Enviar WhatsApp</a>
+</div>
+
+
 <footer>MAC Garden © 2025 — República Dominicana</footer>
 
-<div class="whatsapp-float"><a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a></div>
+<div class="whatsapp-float">
+    <a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a>
+</div>
+
 
 <script>
+/* PRODUCTOS */
 const products=[
  {id:1,name:"Buganvilia fucsia",price:"RD$25",img:"https://picsum.photos/400/300?1"},
  {id:2,name:"Buganvilia blanca",price:"RD$25",img:"https://picsum.photos/400/300?2"},
  {id:3,name:"Echeveria mix",price:"RD$45",img:"https://picsum.photos/400/300?3"},
  {id:4,name:"Sedum",price:"RD$35",img:"https://picsum.photos/400/300?4"},
- {id:5,name:"Tradescantia púrpura",price:"RD$20",img:"https://picsum.photos/400/300?5"},
- {id:6,name:"Portulacaria (Jade)",price:"RD$35",img:"https://picsum.photos/400/300?6"},
- {id:7,name:"Croton mini",price:"RD$30",img:"https://picsum.photos/400/300?7"},
- {id:8,name:"Ixora mini",price:"RD$30",img:"https://picsum.photos/400/300?8"},
- {id:9,name:"Dracaena",price:"RD$40",img:"https://picsum.photos/400/300?9"},
- {id:10,name:"Sansevieria baby",price:"RD$25",img:"https://picsum.photos/400/300?10"},
- {id:11,name:"Aloe vera juvenil",price:"RD$30",img:"https://picsum.photos/400/300?11"},
- {id:12,name:"Philodendron",price:"RD$120",img:"https://picsum.photos/400/300?12"},
- {id:13,name:"Monstera",price:"RD$150",img:"https://picsum.photos/400/300?13"},
- {id:14,name:"Pothos marble queen",price:"RD$90",img:"https://picsum.photos/400/300?14"},
- {id:15,name:"Coleus",price:"RD$22",img:"https://picsum.photos/400/300?15"}
 ];
 
 let cart=[];
@@ -134,14 +156,15 @@ function renderProducts(){
   grid.appendChild(div);
  });
 }
+renderProducts();
 
+/* CARRITO */
 function addToCart(id){
  const prod=products.find(p=>p.id===id);
  cart.push(prod);
  document.getElementById('cart-count').innerText=cart.length;
  renderCart();
 }
-
 function renderCart(){
  const box=document.getElementById('cart-items');
  box.innerHTML='';
@@ -153,27 +176,31 @@ function renderCart(){
  });
  updateWhatsApp();
 }
-
 function removeItem(i){
  cart.splice(i,1);
  document.getElementById('cart-count').innerText=cart.length;
  renderCart();
 }
-
 function updateWhatsApp(){
  const msg=cart.map(i=>`• ${i.name} (${i.price})`).join('%0A');
  const url=`https://wa.me/18496079790?text=Hola!%20Quiero%20comprar:%0A${msg}`;
  document.getElementById('cart-whatsapp').href=url;
 }
-
 function toggleCart(){
  document.getElementById('cart-panel').classList.toggle('open');
 }
 
-renderProducts();
+/* SECCIONES OCULTAS */
+function hideAllSections(){
+ document.querySelectorAll('.section-box').forEach(s=>s.style.display='none');
+}
+function showSection(id){
+ hideAllSections();
+ document.getElementById(id).style.display='block';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
 </script>
-<script src="products.js"></script>
-<script src="script.js"></script>
 
 </body>
 </html>
+
