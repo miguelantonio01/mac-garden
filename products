@@ -1,6 +1,6 @@
 window.products = [
   {id:1, name:"Buganvilia fucsia", price:"RD$25", 
-   img:"https://images.unsplash.com/photo-1607958996333-53c9a82c37e0"},
+   img src="img/Buganvilia fucsia.jpg"},
   {id:2, name:"Buganvilia blanca", price:"RD$25", 
    img:"https://images.unsplash.com/photo-1623260233231-274c327582d9"},
   {id:3, name:"Echeveria mix", price:"RD$45", 
