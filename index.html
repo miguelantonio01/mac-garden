@@ -48,10 +48,17 @@ footer{margin-top:40px;background:var(--blue);color:white;text-align:center;padd
 
 <div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
 <div id="cart-panel">
-  <h2>Tu Carrito</h2>
+  <button onclick="toggleCart()" 
+          style="position:absolute;top:10px;right:10px;
+                 background:none;border:none;font-size:24px;cursor:pointer;">
+    ✖
+  </button>
+
+  <h2 style="margin-top:38px">Tu Carrito</h2>
   <div id="cart-items"></div>
-  <a id="cart-whatsapp" class="cart-btn" href="#">Enviar por WhatsApp</a>
+  <a id="cart-whatsapp" class="cart-btn" href="#" target="_blank">Enviar por WhatsApp</a>
 </div>
+
 
 <section id="inicio" class="hero">
   <h1>Bienvenido a MAC Garden</h1>

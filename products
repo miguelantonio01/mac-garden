@@ -1,13 +1,32 @@
-from PIL import Image, ImageDraw, ImageFont
-names = ["b1","b2","s1","s2","t1","p1","c1","i1","d1","sv1","a1","ph1","m1","po1","co1"]
-for n in names:
-    img = Image.new('RGB',(800,600),(240,255,245))
-    d = ImageDraw.Draw(img)
-    try:
-        f = ImageFont.truetype("DejaVuSans-Bold.ttf", 28)
-    except:
-        f = ImageFont.load_default()
-    txt = n + " — MAC Garden"
-    w,h = d.textsize(txt,font=f)
-    d.text(((800-w)/2,(600-h)/2), txt, fill=(10,79,255), font=f)
-    img.save(f"products/{n}.jpg", quality=85)
+window.products = [
+  {id:1, name:"Buganvilia fucsia", price:"RD$25", 
+   img:"https://images.unsplash.com/photo-1607958996333-53c9a82c37e0"},
+  {id:2, name:"Buganvilia blanca", price:"RD$25", 
+   img:"https://images.unsplash.com/photo-1623260233231-274c327582d9"},
+  {id:3, name:"Echeveria mix", price:"RD$45", 
+   img:"https://images.unsplash.com/photo-1518837695005-2083093ee35b"},
+  {id:4, name:"Sedum", price:"RD$35", 
+   img:"https://images.unsplash.com/photo-1501004318641-b39e6451bec6"},
+  {id:5, name:"Tradescantia púrpura", price:"RD$20", 
+   img:"https://images.unsplash.com/photo-1605130287208-79f68de7f3f2"},
+  {id:6, name:"Portulacaria Jade", price:"RD$35", 
+   img:"https://images.unsplash.com/photo-1459664018906-085c36f472af"},
+  {id:7, name:"Croton mini", price:"RD$30", 
+   img:"https://images.unsplash.com/photo-1614593567076-7f409775888b"},
+  {id:8, name:"Ixora mini", price:"RD$30", 
+   img:"https://images.unsplash.com/photo-1622639538122-741d89bbb3ba"},
+  {id:9, name:"Dracaena", price:"RD$40", 
+   img:"https://images.unsplash.com/photo-1587502537088-2fa57a0821df"},
+  {id:10, name:"Sansevieria baby", price:"RD$25", 
+   img:"https://images.unsplash.com/photo-1501004318641-b39e6451bec6"},
+  {id:11, name:"Aloe vera juvenil", price:"RD$30", 
+   img:"https://images.unsplash.com/photo-1605478771996-94809cfa65cd"},
+  {id:12, name:"Philodendron", price:"RD$120", 
+   img:"https://images.unsplash.com/photo-1626716493134-6e36f8b1a79c"},
+  {id:13, name:"Monstera", price:"RD$150", 
+   img:"https://images.unsplash.com/photo-1614593567087-773a1f7a1962"},
+  {id:14, name:"Pothos marble queen", price:"RD$90", 
+   img:"https://images.unsplash.com/photo-1623708676372-7e69a269b401"},
+  {id:15, name:"Coleus", price:"RD$22", 
+   img:"https://images.unsplash.com/photo-1623260350365-5a65c0d6e6ca"}
+];
