@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120">
+  <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#0A4FFF"/><stop offset="1" stop-color="#0AD18C"/></linearGradient></defs>
+  <g transform="translate(12,8)">
+    <circle cx="44" cy="48" r="34" fill="url(#g1)"/>
+    <g transform="translate(28,32)" fill="white">
+      <path d="M10 0 C12 8, 22 8, 24 0 C26 8, 36 8, 38 0 C38 28, 10 28, 10 0 Z" />
+    </g>
+    <text x="96" y="64" font-family="Poppins, Arial" font-weight="700" font-size="36" fill="#033e1b">MAC <tspan fill="#0A4FFF">Garden</tspan></text>
+    <text x="96" y="92" font-family="Inter, Arial" font-size="12" fill="#036">Esquejes • Ornamentales • Tropical</text>
+  </g>
+</svg>
