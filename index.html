@@ -38,13 +38,18 @@ footer{margin-top:40px;background:var(--blue);color:white;text-align:center;padd
   <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDQ4MCAxMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzBBNEZGRiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBBRDE4QyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyLDgpIj48Y2lyY2xlIGN4PSI0NCIgY3k9IjQ4IiByPSIzNCIgZmlsbD0idXJsKCNnMSkiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOCwzMikiIGZpbGw9IndoaXRlIj48cGF0aCBkPSJNMTAuMCAwIEMxMi4wIDgsIDIyLjAgOCwgMjQuMCAwIEMyNi4wIDgsIDM2LjAgOCwgMzguMCAwIEMzOC4wIDI4LCAxMC4wIDI4LCAxMC4wIDAgWiIgLz48L2c+PHRleHQgeD0iOTYiIHk9IjY0IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc2l6ZT0iMzYiIGZpbGw9IiMwMzNlMWIiPk1BQyA8dHNwYW4gZmlsbD0iIzBBNEZGRiI+R2FyZGVuPC90c3Bhbj48L3RleHQ+PHRleHQgeD0iOTYiIHk9IjkyIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMwMzYiPkVzcXVlamVzIOKAmCBPcm5hbWVudGFsZXMg4oCYIFRyb3BpY2FsPC90ZXh0PjwvZz48L3N2Zz4=" />
 </header>
 
-<nav>
-  <a href="#inicio">Inicio</a>
-  <a href="#catalogo">Catálogo</a>
-  <a href="#servicios">Servicios</a>
-  <a href="#nosotros">Nosotros</a>
-  <a href="#contacto">Contacto</a>
+<nav class="navbar">
+    <div class="logo">MAC Garden</div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="products.html">Productos</a></li>
+        <li><a href="services.html">Servicios</a></li>
+        <li><a href="about.html">Nosotros</a></li>
+        <li><a href="contact.html">Contacto</a></li>
+    </ul>
 </nav>
+
 
 <div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
 <div id="cart-panel">
@@ -148,6 +153,8 @@ function toggleCart(){
 
 renderProducts();
 </script>
+<script src="products.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
