@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Contacto – MAC Garden</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productos - MAC Company</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="products.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
-<header class="header">
-    <div class="logo-container">
-        <img src="images/logo.png" class="logo">
-        <h1 class="site-title">MAC Garden</h1>
-    </div>
-    <nav class="navbar">
-        <ul class="nav-links">
+<header>
+    <a class="logo" href="index.html">
+        <img src="img/logo.png" alt="Logo MAC">
+    </a>
+
+    <nav>
+        <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="products.html">Productos</a></li>
-            <li><a href="services.html">Servicios</a></li>
-            <li><a href="about.html">Nosotros</a></li>
-            <li><a href="contact.html">Contacto</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="productos.html" class="active">Productos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
         </ul>
     </nav>
 </header>
 
-<section class="page-section">
-    <h2>Contacto</h2>
-
-    <p><strong>WhatsApp:</strong> <a href="https://wa.me/18496079790">849-607-9790</a></p>
-    <p><strong>Ubicación:</strong> San Cristóbal, República Dominicana</p>
-
-    <h3>Formulario</h3>
-
-    <form action="https://formspree.io/f/YOUR_ID" method="POST">
-        <input type="text" name="nombre" placeholder="Nombre">
-        <input type="email" name="email" placeholder="Correo">
-        <textarea name="mensaje" placeholder="Mensaje"></textarea>
-        <button type="submit">Enviar</button>
-    </form>
-
+<section class="productos">
+    <h1>Nuestros Productos</h1>
+    <div id="productos-container"></div>
 </section>
 
 </body>
 </html>
+
