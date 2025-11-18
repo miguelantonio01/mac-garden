@@ -1,0 +1,13 @@
+from PIL import Image, ImageDraw, ImageFont
+names = ["b1","b2","s1","s2","t1","p1","c1","i1","d1","sv1","a1","ph1","m1","po1","co1"]
+for n in names:
+    img = Image.new('RGB',(800,600),(240,255,245))
+    d = ImageDraw.Draw(img)
+    try:
+        f = ImageFont.truetype("DejaVuSans-Bold.ttf", 28)
+    except:
+        f = ImageFont.load_default()
+    txt = n + " — MAC Garden"
+    w,h = d.textsize(txt,font=f)
+    d.text(((800-w)/2,(600-h)/2), txt, fill=(10,79,255), font=f)
+    img.save(f"products/{n}.jpg", quality=85)
