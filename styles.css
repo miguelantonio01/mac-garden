@@ -17,3 +17,20 @@ body{font-family:Inter,Arial,sans-serif;margin:0;background:var(--bg);color:var(
 .footer{background:var(--blue);color:white;padding:18px;text-align:center;margin-top:30px}
 .whatsapp-float{position:fixed;right:18px;bottom:18px;z-index:999}
 .whatsapp-float a{display:flex;gap:10px;align-items:center;padding:12px 14px;background:linear-gradient(90deg,var(--green),#06b070);color:white;border-radius:999px;text-decoration:none;font-weight:700}
+/* FIX para que el menú funcione y no quede tapado */
+header, .navbar, .nav-links a {
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+}
+
+/* Asegura que el header esté encima de todo */
+header {
+    position: relative !important;
+    z-index: 999999 !important;
+}
+
+/* Quita la capa fantasma que bloquea clics */
+body * {
+    pointer-events: auto !important;
+}
