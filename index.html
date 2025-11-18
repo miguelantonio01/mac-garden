@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAC Garden</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #033e1b;
+    }
+    header {
+      background: linear-gradient(to right, #0a4fff, #0ad18c);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #e8f7ee;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #033e1b;
+      font-weight: bold;
+    }
+    .hero {
+      padding: 80px 20px;
+      text-align: center;
+      color: #033e1b;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      border: 1px solid #cfe7d6;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      background-color: #fafffd;
+    }
+    footer {
+      background-color: #0a4fff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo MAC Garden" style="height:100px; display:block; margin:auto;"/>
+    <h1>MAC Garden</h1>
+    <p>Esquejes, plantas ornamentales y naturaleza tropical</p>
+  </header>
+
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#catalogo">Catálogo</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <section class="hero" id="inicio">
+    <h1>Bienvenido a MAC Garden</h1>
+    <p>El vivero especializado en esquejes y plantas tropicales</p>
+  </section>
+
+  <section class="section" id="catalogo">
+    <h2>Catálogo de Esquejes</h2>
+    <div class="catalogo">
+      <div class="card">
+        <h3>Buganvilia</h3>
+        <p>RD$ 25</p>
+      </div>
+      <div class="card">
+        <h3>Suculentas</h3>
+        <p>RD$ 40</p>
+      </div>
+      <div class="card">
+        <h3>Tradescantia</h3>
+        <p>RD$ 20</p>
+      </div>
+      <div class="card">
+        <h3>Portulacaria</h3>
+        <p>RD$ 35</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nosotros">
+    <h2>Sobre MAC Garden</h2>
+    <p>
+      Somos un proyecto dedicado a la reproducción de plantas ornamentales y esquejes de alta calidad.
+    </p>
+  </section>
+
+  <section class="section" id="contacto">
+    <h2>Contacto</h2>
+    <p>WhatsApp: <strong>809-000-0000</strong></p>
+    <p>Email: <strong>info@macgarden.com</strong></p>
+  </section>
+
+  <footer>
+    <p>MAC Garden © 2025 • Naturaleza tropical en cada planta</p>
+  </footer>
+</body>
+</html>
