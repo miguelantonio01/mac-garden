@@ -32,15 +32,23 @@ footer{margin-top:40px;background:var(--blue);color:white;text-align:center;padd
 .whatsapp-float{position:fixed;right:18px;bottom:18px;z-index:900}
 .whatsapp-float a{display:flex;gap:10px;align-items:center;padding:12px 14px;background:linear-gradient(90deg,var(--green),#06b070);color:white;border-radius:999px;text-decoration:none;font-weight:700}
 /* FIX para que el menú sea clickeable */
-.navbar {
-  position: relative;
-  z-index: 9999;
+/* Reparación DEFINITIVA del menú */
+.navbar, .nav-links a {
+    position: relative !important;
+    z-index: 99999 !important;
+    pointer-events: auto !important;
 }
 
 header {
-  position: relative;
-  z-index: 1;
+    position: relative !important;
+    z-index: 1 !important;
 }
+
+/* Eliminar cualquier bloque invisible que impida clicks */
+* {
+    pointer-events: auto !important;
+}
+
 
 </style>
 </head>
