@@ -1,125 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MAC Garden</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #ffffff;
-      color: #033e1b;
-    }
-    header {
-      background: linear-gradient(to right, #0a4fff, #0ad18c);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #e8f7ee;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #033e1b;
-      font-weight: bold;
-    }
-    .hero {
-      padding: 80px 20px;
-      text-align: center;
-      color: #033e1b;
-    }
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-    .section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    .catalogo {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      border: 1px solid #cfe7d6;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      background-color: #fafffd;
-    }
-    footer {
-      background-color: #0a4fff;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      margin-top: 40px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAC Garden — Esquejes y Plantas Tropicales</title>
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo MAC Garden" style="height:100px; display:block; margin:auto;"/>
-    <h1>MAC Garden</h1>
-    <p>Esquejes, plantas ornamentales y naturaleza tropical</p>
-  </header>
+<header class="header"><div class="logo"><img src="logo.svg" alt="MAC Garden logo"></div></header>
 
-  <nav>
-    <a href="#inicio">Inicio</a>
-    <a href="#catalogo">Catálogo</a>
-    <a href="#nosotros">Nosotros</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
+<nav class="nav">
+  <a href="#inicio">Inicio</a>
+  <a href="#catalogo">Catálogo</a>
+  <a href="#servicios">Servicios</a>
+  <a href="#nosotros">Nosotros</a>
+  <a href="#contacto">Contacto</a>
+</nav>
 
-  <section class="hero" id="inicio">
-    <h1>Bienvenido a MAC Garden</h1>
-    <p>El vivero especializado en esquejes y plantas tropicales</p>
-  </section>
+<section id="inicio" class="hero">
+  <h1>Bienvenido a MAC Garden</h1>
+  <p>Esquejes saludables, producción sostenible y atención por WhatsApp.</p>
+</section>
 
-  <section class="section" id="catalogo">
-    <h2>Catálogo de Esquejes</h2>
-    <div class="catalogo">
-      <div class="card">
-        <h3>Buganvilia</h3>
-        <p>RD$ 25</p>
+<div class="container">
+  <div class="section-title">
+    <h2 id="catalogo">Catálogo — Esquejes disponibles</h2>
+    <div class="tag">Envíos locales • Pago por WhatsApp</div>
+  </div>
+
+  <div class="search-row">
+    <input id="search" placeholder="Buscar producto...">
+  </div>
+
+  <div class="grid" id="product-grid"></div>
+
+  <section id="servicios" style="margin-top:28px">
+    <h2>Servicios</h2>
+    <div class="about">
+      <div style="flex:1">
+        <h3>Venta por WhatsApp</h3>
+        <p>Elige el esqueje que te interesa y compra directo por WhatsApp. Preparación y entrega según zona.</p>
       </div>
-      <div class="card">
-        <h3>Suculentas</h3>
-        <p>RD$ 40</p>
-      </div>
-      <div class="card">
-        <h3>Tradescantia</h3>
-        <p>RD$ 20</p>
-      </div>
-      <div class="card">
-        <h3>Portulacaria</h3>
-        <p>RD$ 35</p>
+      <div style="width:220px; text-align:center">
+        <img src="logo.svg" style="max-width:160px; opacity:0.95">
       </div>
     </div>
   </section>
 
-  <section class="section" id="nosotros">
+  <section id="nosotros" style="margin-top:28px">
     <h2>Sobre MAC Garden</h2>
-    <p>
-      Somos un proyecto dedicado a la reproducción de plantas ornamentales y esquejes de alta calidad.
-    </p>
+    <p>MAC Garden es un vivero urbano especializado en la producción de esquejes para el hogar y proyectos de paisajismo. Operamos desde patios urbanos y optimizamos espacio para producir plantas sanas y listas para crecer.</p>
   </section>
 
-  <section class="section" id="contacto">
+  <section id="contacto" style="margin-top:28px">
     <h2>Contacto</h2>
-    <p>WhatsApp: <strong>809-000-0000</strong></p>
+    <p>WhatsApp: <strong><a href="https://wa.me/18496079790">849-607-9790</a></strong></p>
     <p>Email: <strong>info@macgarden.com</strong></p>
   </section>
+</div>
 
-  <footer>
-    <p>MAC Garden © 2025 • Naturaleza tropical en cada planta</p>
-  </footer>
+<footer class="footer">
+  MAC Garden © 2025 — Hecho con amor en República Dominicana
+</footer>
+
+<div class="whatsapp-float">
+  <a href="https://wa.me/18496079790" target="_blank">📱 Contactar por WhatsApp</a>
+</div>
+
+<script src="script.js"></script>
+<script>
+const products = [
+  {"id":1,"name":"Buganvilia fucsia","price":"RD$ 25","img":"products/b1.jpg"},
+  {"id":2,"name":"Buganvilia blanca","price":"RD$ 25","img":"products/b2.jpg"},
+  {"id":3,"name":"Echeveria mix","price":"RD$ 45","img":"products/s1.jpg"},
+  {"id":4,"name":"Sedum","price":"RD$ 35","img":"products/s2.jpg"},
+  {"id":5,"name":"Tradescantia purpura","price":"RD$ 20","img":"products/t1.jpg"},
+  {"id":6,"name":"Portulacaria (Jade)","price":"RD$ 35","img":"products/p1.jpg"},
+  {"id":7,"name":"Croton mini","price":"RD$ 30","img":"products/c1.jpg"},
+  {"id":8,"name":"Ixora mini","price":"RD$ 30","img":"products/i1.jpg"},
+  {"id":9,"name":"Dracaena","price":"RD$ 40","img":"products/d1.jpg"},
+  {"id":10,"name":"Sansevieria baby","price":"RD$ 25","img":"products/sv1.jpg"},
+  {"id":11,"name":"Aloe vera juvenil","price":"RD$ 30","img":"products/a1.jpg"},
+  {"id":12,"name":"Philodendron cutting","price":"RD$ 120","img":"products/ph1.jpg"},
+  {"id":13,"name":"Monstera cutting","price":"RD$ 150","img":"products/m1.jpg"},
+  {"id":14,"name":"Pothos marble queen","price":"RD$ 90","img":"products/po1.jpg"},
+  {"id":15,"name":"Coleus","price":"RD$ 22","img":"products/co1.jpg"}
+];
+
+const grid = document.getElementById('product-grid');
+
+function renderProducts(list){
+  grid.innerHTML = '';
+  list.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p class="price">${p.price}</p>
+      <a class="btn" href="#" onclick="waLink({name: ${JSON.stringify(p.name)}, price: ${JSON.stringify(p.price)}}); return false;">Comprar por WhatsApp</a>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+renderProducts(products);
+
+document.getElementById('search').addEventListener('input', function(e){
+  const q = e.target.value.toLowerCase();
+  renderProducts(products.filter(p => p.name.toLowerCase().includes(q)));
+});
+</script>
 </body>
 </html>
