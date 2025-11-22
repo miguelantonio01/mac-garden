@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Login - MAC Garden</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <img src="img/logo.svg" class="logo">
+  <h1 class="site-title">MAC Garden</h1>
+</header>
+
+<div class="form-container">
+  <h2>Iniciar Sesión</h2>
+
+  <input id="email" type="email" placeholder="Correo">
+  <input id="password" type="password" placeholder="Contraseña">
+
+  <button onclick="login()">Entrar</button>
+
+  <p>¿No tienes cuenta? <a href="register.html">Registrarse</a></p>
+</div>
+
+<script>
+function login(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch("http://localhost:3000/api/usuarios/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email, password})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.success){
+      localStorage.setItem("usuario", JSON.stringify(data.usuario));
+      alert("Bienvenido " + data.usuario.nombre);
+      window.location.href = "index.html";
+    } else {
+      alert(data.error);
+    }
+  })
+}
+</script>
+
+</body>
+</html>

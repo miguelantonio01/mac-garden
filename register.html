@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registrarse - MAC Garden</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <img src="img/logo.svg" class="logo">
+  <h1 class="site-title">MAC Garden</h1>
+</header>
+
+<div class="form-container">
+  <h2>Registrar Usuario</h2>
+
+  <input id="nombre" type="text" placeholder="Nombre">
+  <input id="email" type="email" placeholder="Correo">
+  <input id="telefono" type="text" placeholder="Teléfono">
+  <input id="password" type="password" placeholder="Contraseña">
+  <input id="ciudad" type="text" placeholder="Ciudad">
+
+  <button onclick="registrar()">Crear cuenta</button>
+</div>
+
+<script>
+function registrar(){
+  const data = {
+    nombre: document.getElementById("nombre").value,
+    email: document.getElementById("email").value,
+    telefono: document.getElementById("telefono").value,
+    ciudad: document.getElementById("ciudad").value,
+    password: document.getElementById("password").value,
+    tipo_cliente: "minorista"
+  };
+
+  fetch("http://localhost:3000/api/usuarios/registro", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+  .then(res => {
+    if(res.success){
+      alert("Cuenta creada!");
+      window.location.href = "login.html";
+    } else {
+      alert(res.error);
+    }
+  })
+}
+</script>
+
+</body>
+</html>

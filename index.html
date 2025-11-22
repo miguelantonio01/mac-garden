@@ -4,75 +4,332 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MAC Garden — Esquejes y Plantas Tropicales</title>
+
 <style>
-:root{--blue:#0A4FFF;--green:#0AD18C;--dark:#033e1b;--bg:#ffffff;--muted:#f1fbf6}
-*{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{margin:0;background:var(--bg);color:var(--dark)}
-header{background:linear-gradient(90deg,var(--blue),var(--green));padding:16px;text-align:center}
-header img{height:70px}
-nav{background:var(--muted);padding:10px;display:flex;gap:18px;justify-content:center;font-weight:600}
-nav a{text-decoration:none;color:var(--dark)}
-.hero{text-align:center;padding:40px 20px}
-.hero h1{font-size:36px;margin-bottom:8px}
-.container{max-width:1100px;margin:0 auto;padding:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:#ffffff;border:1px solid #dff2e7;border-radius:10px;padding:10px;text-align:center}
-.card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
-.card h3{margin:8px 0;font-size:18px}
-.card .price{color:var(--blue);font-weight:700;margin:6px 0}
-.btn{background:var(--blue);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:700;margin-top:8px}
-.btn:hover{opacity:0.9}
-/* Carrito */
-#cart-panel{position:fixed;top:0;right:-400px;width:360px;height:100%;background:white;box-shadow:-2px 0 8px rgba(0,0,0,0.2);padding:20px;transition:0.3s;z-index:999;overflow-y:auto}
-#cart-panel.open{right:0}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:6px}
-.cart-btn{background:var(--green);color:white;padding:10px;border-radius:8px;text-align:center;font-weight:700;text-decoration:none;display:block;margin-top:12px}
-.cart-top-btn{position:fixed;right:20px;top:20px;background:var(--green);color:white;padding:12px 14px;border-radius:10px;font-weight:700;cursor:pointer;z-index:900}
-footer{margin-top:40px;background:var(--blue);color:white;text-align:center;padding:14px}
-.whatsapp-float{position:fixed;right:18px;bottom:18px;z-index:900}
-.whatsapp-float a{display:flex;gap:10px;align-items:center;padding:12px 14px;background:linear-gradient(90deg,var(--green),#06b070);color:white;border-radius:999px;text-decoration:none;font-weight:700}
-/* FIX para que el menú sea clickeable */
-/* Reparación DEFINITIVA del menú */
-.navbar, .nav-links a {
-    position: relative !important;
-    z-index: 99999 !important;
-    pointer-events: auto !important;
+/* =========================
+   VARIABLES
+   ========================= */
+:root{
+  --blue:#0A4FFF;
+  --green:#0AD18C;
+  --dark:#033e1b;
+  --bg:#ffffff;
+  --muted:#f1fbf6;
 }
 
-header {
-    position: relative !important;
-    z-index: 1 !important;
+/* =========================
+   BASE
+   ========================= */
+*{box-sizing:border-box;font-family:Inter,Arial,sans-serif;}
+body{margin:0;background:var(--bg);color:var(--dark);}
+
+/* =========================
+   HEADER
+   ========================= */
+header{
+  background:linear-gradient(90deg,var(--blue),var(--green));
+  padding:16px;
+  text-align:center;
 }
 
-/* Eliminar cualquier bloque invisible que impida clicks */
-* {
-    pointer-events: auto !important;
+header img{
+  height:150px;
+}
+
+.site-title{
+  margin:0;
+  color:white;
+  font-size:38px;
+  font-weight:800;
+}
+
+/* =========================
+   NAVBAR
+   ========================= */
+nav{
+  background:var(--muted);
+  padding:10px;
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  font-weight:600;
+}
+
+nav a{
+  text-decoration:none;
+  color:var(--dark);
+  font-size:18px;
+}
+
+/* =========================
+   HERO
+   ========================= */
+.hero{
+  text-align:center;
+  padding:40px 20px;
+}
+
+.hero h1{
+  font-size:36px;
+  margin-bottom:8px;
+}
+
+/* =========================
+   PRODUCTOS
+   ========================= */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:#ffffff;
+  border:1px solid #dff2e7;
+  border-radius:10px;
+  padding:10px;
+  text-align:center;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:scale(1.03);
+}
+
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.card h3{margin:8px 0;font-size:18px;}
+.card .price{color:var(--blue);font-weight:700;margin:6px 0;}
+
+.btn{
+  background:var(--blue);
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  display:inline-block;
+  font-weight:700;
+  margin-top:8px;
+  cursor:pointer;
+}
+
+/* Selector de variante */
+.variant{
+  width:90%;
+  padding:6px;
+  margin-top:8px;
+  border:1px solid #cceadc;
+  border-radius:8px;
+  font-size:15px;
+}
+
+/* =========================
+   CARRITO PRO
+   ========================= */
+.cart-top-btn{
+  position:fixed;
+  right:20px;
+  top:20px;
+  background:var(--green);
+  color:white;
+  padding:12px 14px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  z-index:900;
+}
+
+/* Animación del icono carrito */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.pulse{
+  animation:pulse 0.4s ease;
+}
+
+/* Panel del carrito */
+#cart-panel{
+  position:fixed;
+  top:0;
+  right:-420px;
+  width:380px;
+  height:100%;
+  background:#ffffff;
+  backdrop-filter:blur(4px);
+  box-shadow:-4px 0 18px rgba(0,0,0,0.25);
+  padding:25px;
+  border-radius:12px 0 0 12px;
+  transition:right .35s ease;
+  z-index:999;
+  overflow-y:auto;
+}
+
+#cart-panel.open{
+  right:0;
+}
+
+/* Items del carrito */
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f7fffa;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:14px;
+  transition:transform .25s ease, opacity .25s ease;
+}
+
+.cart-item:hover{
+  transform:scale(1.02);
+}
+
+/* Controles de cantidad */
+.qty-controls{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* ==== BOTONES MINIMALISTAS DEL CARRITO ==== */
+.qty-controls button {
+  background: transparent !important;
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.qty-controls button:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Botón de eliminar (❌) */
+.qty-controls button:last-child {
+  border-color: #b30000 !important;
+  color: #b30000 !important;
+}
+
+.qty-controls button:last-child:hover {
+  background: #b30000 !important;
+  color: white !important;
 }
 
 
+/* Total general */
+#cart-total{
+  background:#e9fff1;
+  font-size:20px;
+  padding:16px;
+  border-radius:10px;
+  margin-top:20px;
+  font-weight:800;
+  color:var(--dark);
+  text-align:center;
+}
+
+/* Botón WhatsApp en carrito */
+.cart-btn{
+  background:var(--green);
+  padding:13px;
+  border-radius:10px;
+  color:white;
+  font-size:17px;
+  text-align:center;
+  display:block;
+  margin-top:18px;
+  font-weight:800;
+  text-decoration:none;
+  transition:.25s;
+}
+
+.cart-btn:hover{
+  background:#09b677;
+}
+
+/* Animación fade-in para items nuevos */
+@keyframes fadein {
+  from { opacity:0; transform:translateX(20px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+.fade-in{
+  animation:fadein .35s ease;
+}
+
+/* =========================
+   WHATSAPP FLOAT
+   ========================= */
+.whatsapp-float{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:900;
+}
+
+.whatsapp-float a{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:12px 14px;
+  background:linear-gradient(90deg,var(--green),#06b070);
+  color:white;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:700;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+footer{
+  margin-top:40px;
+  background:var(--blue);
+  color:white;
+  text-align:center;
+  padding:14px;
+}
 </style>
 </head>
 <body>
-<header class="header">
-    <div class="logo-container">
-        <img src="img/logo.svg" alt="MAC Garden Logo" class="logo">
-        <h1 class="site-title">MAC Garden</h1>
-    </div>
 
-     <nav class="navbar">
-        <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="services.html">Servicios</a></li>
-        <li><a href="about.html">Nosotros</a></li>
-        <li><a href="#productos">Productos</a></li>
-        <li><a href="contact.html">Contacto</a></li>
-    </ul>
-</nav>
-
+<!-- =========================
+     HEADER Y NAV
+     ========================= -->
+<header>
+  <img src="img/logo.svg" alt="MAC Garden Logo">
+  <h1 class="site-title">MAC Garden</h1>
 </header>
 
+<nav>
+  <a href="index.html">Inicio</a>
+  <a href="services.html">Servicios</a>
+  <a href="about.html">Nosotros</a>
+  <a href="#productos">Productos</a>
+  <a href="contact.html">Contacto</a>
+</nav>
 
+<!-- BOTÓN FLOTANTE CARRITO -->
 <div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
+
+<!-- PANEL DEL CARRITO -->
 <div id="cart-panel">
   <button onclick="toggleCart()" 
           style="position:absolute;top:10px;right:10px;
@@ -81,16 +338,24 @@ header {
   </button>
 
   <h2 style="margin-top:38px">Tu Carrito</h2>
+
   <div id="cart-items"></div>
-  <a id="cart-whatsapp" class="cart-btn" href="#" target="_blank">Enviar por WhatsApp</a>
+
+  <!-- TOTAL GENERAL -->
+  <div id="cart-total">Total general: RD$0</div>
+
+  <a id="cart-whatsapp" class="cart-btn" href="#" target="_blank">
+    Enviar por WhatsApp
+  </a>
 </div>
 
-
+<!-- HERO -->
 <section id="inicio" class="hero">
   <h1>Bienvenido a MAC Garden</h1>
   <p>Esquejes saludables, producción sostenible y venta directa por WhatsApp.</p>
 </section>
 
+<!-- PRODUCTOS -->
 <div id="productos" class="container">
   <h2 id="catalogo">Catálogo — Esquejes Disponibles</h2>
   <div class="grid" id="product-grid"></div>
@@ -98,82 +363,211 @@ header {
 
 <footer>MAC Garden © 2025 — República Dominicana</footer>
 
-<div class="whatsapp-float"><a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a></div>
+<div class="whatsapp-float">
+  <a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a>
+</div>
 
+<!-- =========================
+     JAVASCRIPT
+     ========================= -->
 <script>
+// ===== PRODUCTOS CON VARIANTES =====
 const products=[
- {id:1,name:"Buganvilia fucsia",price:"RD$25",img:"https://picsum.photos/400/300?1"},
- {id:2,name:"Buganvilia blanca",price:"RD$25",img:"https://picsum.photos/400/300?2"},
- {id:3,name:"Echeveria mix",price:"RD$45",img:"https://picsum.photos/400/300?3"},
- {id:4,name:"Sedum",price:"RD$35",img:"https://picsum.photos/400/300?4"},
- {id:5,name:"Tradescantia púrpura",price:"RD$20",img:"https://picsum.photos/400/300?5"},
- {id:6,name:"Portulacaria (Jade)",price:"RD$35",img:"https://picsum.photos/400/300?6"},
- {id:7,name:"Croton mini",price:"RD$30",img:"https://picsum.photos/400/300?7"},
- {id:8,name:"Ixora mini",price:"RD$30",img:"https://picsum.photos/400/300?8"},
- {id:9,name:"Dracaena",price:"RD$40",img:"https://picsum.photos/400/300?9"},
- {id:10,name:"Sansevieria baby",price:"RD$25",img:"https://picsum.photos/400/300?10"},
- {id:11,name:"Aloe vera juvenil",price:"RD$30",img:"https://picsum.photos/400/300?11"},
- {id:12,name:"Philodendron",price:"RD$120",img:"https://picsum.photos/400/300?12"},
- {id:13,name:"Monstera",price:"RD$150",img:"https://picsum.photos/400/300?13"},
- {id:14,name:"Pothos marble queen",price:"RD$90",img:"https://picsum.photos/400/300?14"},
- {id:15,name:"Coleus",price:"RD$22",img:"https://picsum.photos/400/300?15"}
+ {id:1,name:"Buganvilia fucsia",price:"RD$25",img:"img/buganvilia_fucsia.jpg",
+  opciones:["Pequeño","Mediano","Grande"]},
+ {id:2,name:"Buganvilia blanca",price:"RD$25",img:"img/buganvilia_blanca.jpg",
+  opciones:["Pequeño","Mediano","Grande"]},
+ {id:3,name:"Echeveria mix",price:"RD$45",img:"img/echeveria_mix.jpg",
+  opciones:["Esqueje pequeño","Maceta 3\"","Maceta 5\""]},
+ {id:4,name:"Sedum",price:"RD$35",img:"img/sedum.jpg",
+  opciones:["Recorte fresco","Enraizado","Maceta"]},
+ {id:5,name:"Tradescantia púrpura",price:"RD$20",img:"img/tradescantia_purpura.jpg",
+  opciones:["Esqueje","Maceta pequeña","Colgante"]},
+ {id:6,name:"Portulacaria (Jade)",price:"RD$35",img:"img/portulacaria_(jade).jpg",
+  opciones:["Mini","Mediana","Grande"]},
+ {id:7,name:"Croton mini",price:"RD$30",img:"img/croton_mini.jpg",
+  opciones:["Mini","Maceta 1 galón"]},
+ {id:8,name:"Ixora mini",price:"RD$30",img:"img/ixora_mini.jpg",
+  opciones:["Roja","Naranja","Amarilla"]},
+ {id:9,name:"Dracaena",price:"RD$40",img:"img/dracaena.jpg",
+  opciones:["Esqueje","Maceta"]},
+ {id:10,name:"Sansevieria baby",price:"RD$25",img:"img/sansevieria_baby.webp",
+  opciones:["Piecita","Maceta pequeña"]},
+ {id:11,name:"Aloe vera juvenil",price:"RD$30",img:"img/aloe_vera_juvenil.jpg",
+  opciones:["Esqueje","Maceta"]},
+ {id:12,name:"Philodendron",price:"RD$120",img:"img/philodendron_cutting.jpg",
+  opciones:["Nodo simple","Nodo doble","Planta"]},
+ {id:13,name:"Monstera",price:"RD$150",img:"img/monstera_cutting.jpg",
+  opciones:["Esqueje con hoja","Punta enraizada"]},
+ {id:14,name:"Pothos marble queen",price:"RD$90",img:"img/pothos_marble_queen.jpg",
+  opciones:["Tira 3 nudos","Tira 5 nudos","Maceta colgante"]},
+ {id:15,name:"Coleus",price:"RD$22",img:"img/coleus.jpg",
+  opciones:["Esqueje","Maceta pequeña"]}
 ];
 
-let cart=[];
+// ===== CARRITO (con localStorage) =====
+let cart = JSON.parse(localStorage.getItem("mac_cart") || "[]");
 
+// Guardar carrito
+function saveCart(){
+  localStorage.setItem("mac_cart", JSON.stringify(cart));
+}
+
+// ===== RENDERIZAR PRODUCTOS =====
 function renderProducts(){
- const grid=document.getElementById('product-grid');
- grid.innerHTML='';
- products.forEach(p=>{
-  const div=document.createElement('div');
-  div.className='card';
-  div.innerHTML=`
-    <img src="${p.img}"/>
-    <h3>${p.name}</h3>
-    <p class='price'>${p.price}</p>
-    <button class='btn' onclick='addToCart(${p.id})'>Agregar al carrito</button>
-  `;
-  grid.appendChild(div);
- });
+  const grid=document.getElementById('product-grid');
+  grid.innerHTML='';
+
+  products.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <p class='price'>${p.price}</p>
+
+      <select id="opt-${p.id}" class="variant">
+        ${p.opciones.map(o=>`<option value="${o}">${o}</option>`).join("")}
+      </select>
+
+      <button class='btn' onclick='addToCart(${p.id})'>Agregar al carrito</button>
+    `;
+    grid.appendChild(div);
+  });
 }
 
+// ===== AGREGAR AL CARRITO =====
 function addToCart(id){
- const prod=products.find(p=>p.id===id);
- cart.push(prod);
- document.getElementById('cart-count').innerText=cart.length;
- renderCart();
+  const prod = products.find(p=>p.id===id);
+  const select = document.getElementById(`opt-${id}`);
+  const variante = select ? select.value : "Normal";
+
+  // Buscar si ya existe el mismo producto con misma variante
+  const item = cart.find(i => i.id===id && i.variante===variante);
+
+  if(item){
+    item.cantidad++;
+  } else {
+    cart.push({...prod, cantidad:1, variante:variante});
+  }
+
+  updateCartCount();
+  renderCart();
+  saveCart();
+  animateCartIcon();
 }
 
+// ===== RENDERIZAR CARRITO =====
 function renderCart(){
- const box=document.getElementById('cart-items');
- box.innerHTML='';
- cart.forEach((item,i)=>{
-  const div=document.createElement('div');
-  div.className='cart-item';
-  div.innerHTML=`<span>${item.name} — ${item.price}</span><button onclick='removeItem(${i})'>❌</button>`;
-  box.appendChild(div);
- });
- updateWhatsApp();
+  const box=document.getElementById('cart-items');
+  const totalBox=document.getElementById('cart-total');
+
+  box.innerHTML='';
+  let total=0;
+
+  cart.forEach((item,i)=>{
+    const price = Number(item.price.replace("RD$",""));
+    const subtotal = item.cantidad * price;
+    total += subtotal;
+
+    const div=document.createElement('div');
+    div.className='cart-item fade-in';
+
+    div.innerHTML=`
+      <span>
+        <strong>${item.name}</strong><br>
+        <small>Variante: ${item.variante}</small><br>
+        <small>Precio: RD$${price}</small><br>
+        <small>Cantidad: ${item.cantidad}</small><br>
+        <strong>Subtotal: RD$${subtotal}</strong>
+      </span>
+
+      <div class="qty-controls">
+        <button onclick="changeQty(${i},-1)">➖</button>
+        <button onclick="changeQty(${i},1)">➕</button>
+        <button onclick="removeItem(${i})">❌</button>
+      </div>
+    `;
+
+    box.appendChild(div);
+  });
+
+  totalBox.innerHTML = `Total general: RD$${total}`;
+  updateWhatsApp();
 }
 
+// ===== CAMBIAR CANTIDAD =====
+function changeQty(i, amount){
+  cart[i].cantidad += amount;
+
+  if(cart[i].cantidad <= 0){
+    cart.splice(i,1);
+  }
+
+  updateCartCount();
+  renderCart();
+  saveCart();
+}
+
+// ===== ELIMINAR ITEM =====
 function removeItem(i){
- cart.splice(i,1);
- document.getElementById('cart-count').innerText=cart.length;
- renderCart();
+  cart.splice(i,1);
+  updateCartCount();
+  renderCart();
+  saveCart();
 }
 
+// ===== CONTADOR DEL ICONO =====
+function updateCartCount(){
+  const total = cart.reduce((sum,item)=>sum+item.cantidad,0);
+  document.getElementById('cart-count').innerText = total;
+}
+
+// ===== WHATSAPP =====
 function updateWhatsApp(){
- const msg=cart.map(i=>`• ${i.name} (${i.price})`).join('%0A');
- const url=`https://wa.me/18496079790?text=Hola!%20Quiero%20comprar:%0A${msg}`;
- document.getElementById('cart-whatsapp').href=url;
+  if(!cart.length){
+    document.getElementById("cart-whatsapp").href = "https://wa.me/18496079790";
+    return;
+  }
+
+  const msg = cart.map(i =>
+    `• ${i.name} (${i.variante}) — ${i.cantidad} unidad(es)`
+  ).join("%0A");
+
+  const total = cart.reduce((sum,i)=>{
+    const price = Number(i.price.replace("RD$",""));
+    return sum + (price * i.cantidad);
+  },0);
+
+  const url =
+    `https://wa.me/18496079790?text=` +
+    encodeURIComponent(
+      `Hola, quiero ordenar:\n\n${msg}\n\nTotal: RD$${total}`
+    );
+
+  document.getElementById("cart-whatsapp").href = url;
 }
 
+// ===== MOSTRAR / OCULTAR CARRITO =====
 function toggleCart(){
- document.getElementById('cart-panel').classList.toggle('open');
+  document.getElementById("cart-panel").classList.toggle("open");
 }
 
-renderProducts();
+// Animación icono carrito
+function animateCartIcon(){
+  const icon = document.querySelector(".cart-top-btn");
+  icon.classList.add("pulse");
+  setTimeout(()=>icon.classList.remove("pulse"),300);
+}
+
+// ===== INICIO =====
+window.onload = ()=>{
+  renderProducts();
+  updateCartCount();
+  renderCart();
+};
 </script>
 
 </body>
 </html>
+
