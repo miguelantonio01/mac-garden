@@ -50,7 +50,7 @@ nav{
   background:var(--muted);
   padding:10px;
   display:flex;
-  justify-content:space-between; /* antes estaba center */
+  justify-content:space-between;
   align-items:center;
   gap:25px;
   font-weight:600;
@@ -126,7 +126,6 @@ nav{
   border-radius:6px;
   cursor:pointer;
 }
-
 
 /* =========================
    HERO
@@ -300,7 +299,6 @@ nav{
   color: white !important;
 }
 
-
 /* Total general */
 #cart-total{
   background:#e9fff1;
@@ -392,10 +390,10 @@ footer{
     <a href="about.html">Nosotros</a>
     <a href="#productos">Productos</a>
     <a href="contact.html">Contacto</a>
+    <a href="register.html">Registrarse</a>
   </div>
   <div id="nav-user"></div>
 </nav>
-
 
 <!-- BOTÓN FLOTANTE CARRITO -->
 <div class="cart-top-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</div>
@@ -438,127 +436,173 @@ footer{
   <a href="https://wa.me/18496079790" target="_blank">💬 WhatsApp</a>
 </div>
 
+<!-- auth (manejo de usuario / login / register) -->
 <script src="auth.js"></script>
 
 <!-- =========================
-     JAVASCRIPT
+     JAVASCRIPT - PRODUCTOS + CARRITO
      ========================= -->
 <script>
-// ===== PRODUCTOS CON VARIANTES =====
-const products=[
- {id:1,name:"Buganvilia fucsia",price:"RD$25",img:"img/buganvilia_fucsia.jpg",
-  opciones:["Pequeño","Mediano","Grande"]},
- {id:2,name:"Buganvilia blanca",price:"RD$25",img:"img/buganvilia_blanca.jpg",
-  opciones:["Pequeño","Mediano","Grande"]},
- {id:3,name:"Echeveria mix",price:"RD$45",img:"img/echeveria_mix.jpg",
-  opciones:["Esqueje pequeño","Maceta 3\"","Maceta 5\""]},
- {id:4,name:"Sedum",price:"RD$35",img:"img/sedum.jpg",
-  opciones:["Recorte fresco","Enraizado","Maceta"]},
- {id:5,name:"Tradescantia púrpura",price:"RD$20",img:"img/tradescantia_purpura.jpg",
-  opciones:["Esqueje","Maceta pequeña","Colgante"]},
- {id:6,name:"Portulacaria (Jade)",price:"RD$35",img:"img/portulacaria_(jade).jpg",
-  opciones:["Mini","Mediana","Grande"]},
- {id:7,name:"Croton mini",price:"RD$30",img:"img/croton_mini.jpg",
-  opciones:["Mini","Maceta 1 galón"]},
- {id:8,name:"Ixora mini",price:"RD$30",img:"img/ixora_mini.jpg",
-  opciones:["Roja","Naranja","Amarilla"]},
- {id:9,name:"Dracaena",price:"RD$40",img:"img/dracaena.jpg",
-  opciones:["Esqueje","Maceta"]},
- {id:10,name:"Sansevieria baby",price:"RD$25",img:"img/sansevieria_baby.webp",
-  opciones:["Piecita","Maceta pequeña"]},
- {id:11,name:"Aloe vera juvenil",price:"RD$30",img:"img/aloe_vera_juvenil.jpg",
-  opciones:["Esqueje","Maceta"]},
- {id:12,name:"Philodendron",price:"RD$120",img:"img/philodendron_cutting.jpg",
-  opciones:["Nodo simple","Nodo doble","Planta"]},
- {id:13,name:"Monstera",price:"RD$150",img:"img/monstera_cutting.jpg",
-  opciones:["Esqueje con hoja","Punta enraizada"]},
- {id:14,name:"Pothos marble queen",price:"RD$90",img:"img/pothos_marble_queen.jpg",
-  opciones:["Tira 3 nudos","Tira 5 nudos","Maceta colgante"]},
- {id:15,name:"Coleus",price:"RD$22",img:"img/coleus.jpg",
-  opciones:["Esqueje","Maceta pequeña"]}
-];
+// ===== PRODUCTOS DESDE LA API =====
+let products = [];
+let currentUser = null;
+let esMayorista = false;
 
-
-// ===== CARRITO (con localStorage) =====
+// CARRITO (con localStorage)
 let cart = JSON.parse(localStorage.getItem("mac_cart") || "[]");
 
-// Guardar carrito
 function saveCart(){
   localStorage.setItem("mac_cart", JSON.stringify(cart));
 }
 
-// ===== RENDERIZAR PRODUCTOS =====
-function renderProducts(){
-  const grid=document.getElementById('product-grid');
-  grid.innerHTML='';
+// Cargar productos y variantes desde backend
+async function loadProducts() {
+  try {
+    const res = await fetch("http://localhost:3000/api/productos");
+    const productosBase = await res.json();
 
-  products.forEach(p=>{
-    const div=document.createElement('div');
-    div.className='card';
-    div.innerHTML=`
+    const productosFinal = [];
+
+    for (const p of productosBase) {
+      const vr = await fetch(`http://localhost:3000/api/productos/${p.id}/variantes`);
+      const variantes = await vr.json();
+
+      productosFinal.push({
+        id: p.id,
+        name: p.nombre,
+        price_base: Number(p.precio_base),
+        img: p.imagen_principal || "img/placeholder.jpg",
+
+        opciones: variantes.length > 0
+          ? variantes.map(v => ({
+              nombre: v.nombre_variante,
+              adicional: Number(v.precio)
+            }))
+          : [{ nombre: "Estándar", adicional: 0 }]
+      });
+    }
+
+    products = productosFinal;
+    renderProducts();
+
+  } catch (e) {
+    console.error("Error cargando productos:", e);
+  }
+}
+
+
+
+// RENDERIZAR PRODUCTOS
+function renderProducts(){
+  const grid = document.getElementById('product-grid');
+  grid.innerHTML = '';
+
+  products.forEach(p => {
+
+    const variantesHTML = p.opciones
+      .map(v => `
+        <option value="${v.nombre}" data-adicional="${v.adicional}">
+          ${v.nombre} ${v.adicional > 0 ? "(+RD$" + v.adicional + ")" : ""}
+        </option>
+      `)
+      .join("");
+
+    const precioInicial = p.price_base + p.opciones[0].adicional;
+
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    div.innerHTML = `
       <img src="${p.img}">
       <h3>${p.name}</h3>
-      <p class='price'>${p.price}</p>
 
-      <select id="opt-${p.id}" class="variant">
-        ${p.opciones.map(o=>`<option value="${o}">${o}</option>`).join("")}
+      <select id="opt-${p.id}" class="variant" onchange="updatePrice(${p.id})">
+        ${variantesHTML}
       </select>
+
+      <p class="price" id="price-${p.id}">RD$${precioInicial}</p>
 
       <button class='btn' onclick='addToCart(${p.id})'>Agregar al carrito</button>
     `;
+
     grid.appendChild(div);
   });
 }
 
-// ===== AGREGAR AL CARRITO =====
-function addToCart(id){
-  const prod = products.find(p=>p.id===id);
-  const select = document.getElementById(`opt-${id}`);
-  const variante = select ? select.value : "Normal";
 
-  // Buscar si ya existe el mismo producto con misma variante
-  const item = cart.find(i => i.id===id && i.variante===variante);
+
+// ACTUALIZAR PRECIO AL CAMBIAR VARIANTE
+function updatePrice(id){
+  const prod = products.find(p => p.id === id);
+  const select = document.getElementById(`opt-${id}`);
+  const adicional = Number(select.selectedOptions[0].dataset.adicional);
+
+  const precioFinal = prod.price_base + adicional;
+
+  document.getElementById(`price-${id}`).innerText = "RD$" + precioFinal;
+}
+
+
+
+// AGREGAR AL CARRITO
+function addToCart(id){
+  const prod = products.find(p => p.id === id);
+  const select = document.getElementById(`opt-${id}`);
+
+  const varianteNombre = select.value;
+  const adicional = Number(select.selectedOptions[0].dataset.adicional);
+  const precioFinal = prod.price_base + adicional;
+
+  const item = cart.find(i => i.id === id && i.variante === varianteNombre);
 
   if(item){
     item.cantidad++;
   } else {
-    cart.push({...prod, cantidad:1, variante:variante});
+    cart.push({
+      id: id,
+      name: prod.name,
+      variante: varianteNombre,
+      precio: precioFinal,   // 🔥 ahora sí existe
+      cantidad: 1
+    });
   }
 
+  saveCart();
   updateCartCount();
   renderCart();
-  saveCart();
   animateCartIcon();
 }
 
-// ===== RENDERIZAR CARRITO =====
+
+
+// RENDERIZAR CARRITO
 function renderCart(){
-  const box=document.getElementById('cart-items');
-  const totalBox=document.getElementById('cart-total');
+  const box = document.getElementById('cart-items');
+  const totalBox = document.getElementById('cart-total');
 
-  box.innerHTML='';
-  let total=0;
+  box.innerHTML = '';
+  let total = 0;
 
-  cart.forEach((item,i)=>{
-    const price = Number(item.price.replace("RD$",""));
-    const subtotal = item.cantidad * price;
+  cart.forEach((item, i) => {
+
+    const subtotal = item.precio * item.cantidad;
     total += subtotal;
 
-    const div=document.createElement('div');
-    div.className='cart-item fade-in';
+    const div = document.createElement('div');
+    div.className = 'cart-item fade-in';
 
-    div.innerHTML=`
+    div.innerHTML = `
       <span>
         <strong>${item.name}</strong><br>
         <small>Variante: ${item.variante}</small><br>
-        <small>Precio: RD$${price}</small><br>
+        <small>Precio: RD$${item.precio}</small><br>
         <small>Cantidad: ${item.cantidad}</small><br>
         <strong>Subtotal: RD$${subtotal}</strong>
       </span>
 
       <div class="qty-controls">
-        <button onclick="changeQty(${i},-1)">➖</button>
-        <button onclick="changeQty(${i},1)">➕</button>
+        <button onclick="changeQty(${i}, -1)">➖</button>
+        <button onclick="changeQty(${i}, 1)">➕</button>
         <button onclick="removeItem(${i})">❌</button>
       </div>
     `;
@@ -570,34 +614,40 @@ function renderCart(){
   updateWhatsApp();
 }
 
-// ===== CAMBIAR CANTIDAD =====
+
+
+// CAMBIAR CANTIDAD
 function changeQty(i, amount){
   cart[i].cantidad += amount;
-
   if(cart[i].cantidad <= 0){
-    cart.splice(i,1);
+    cart.splice(i, 1);
   }
-
+  saveCart();
   updateCartCount();
   renderCart();
-  saveCart();
 }
 
-// ===== ELIMINAR ITEM =====
+
+
+// ELIMINAR ITEM
 function removeItem(i){
-  cart.splice(i,1);
+  cart.splice(i, 1);
+  saveCart();
   updateCartCount();
   renderCart();
-  saveCart();
 }
 
-// ===== CONTADOR DEL ICONO =====
+
+
+// CONTADOR DEL ICONO
 function updateCartCount(){
   const total = cart.reduce((sum,item)=>sum+item.cantidad,0);
   document.getElementById('cart-count').innerText = total;
 }
 
-// ===== WHATSAPP =====
+
+
+// WHATSAPP
 function updateWhatsApp(){
   if(!cart.length){
     document.getElementById("cart-whatsapp").href = "https://wa.me/18496079790";
@@ -605,13 +655,10 @@ function updateWhatsApp(){
   }
 
   const msg = cart.map(i =>
-    `• ${i.name} (${i.variante}) — ${i.cantidad} unidad(es)`
+    `• ${i.name} (${i.variante}) — ${i.cantidad} unidad(es) - RD$${i.precio}`
   ).join("%0A");
 
-  const total = cart.reduce((sum,i)=>{
-    const price = Number(i.price.replace("RD$",""));
-    return sum + (price * i.cantidad);
-  },0);
+  const total = cart.reduce((sum,i)=>sum + (i.precio * i.cantidad), 0);
 
   const url =
     `https://wa.me/18496079790?text=` +
@@ -622,10 +669,14 @@ function updateWhatsApp(){
   document.getElementById("cart-whatsapp").href = url;
 }
 
-// ===== MOSTRAR / OCULTAR CARRITO =====
+
+
+// MOSTRAR / OCULTAR CARRITO
 function toggleCart(){
   document.getElementById("cart-panel").classList.toggle("open");
 }
+
+
 
 // Animación icono carrito
 function animateCartIcon(){
@@ -634,14 +685,17 @@ function animateCartIcon(){
   setTimeout(()=>icon.classList.remove("pulse"),300);
 }
 
-// ===== INICIO =====
+
+
+// INICIO
 window.onload = ()=>{
-  renderProducts();
+  if (typeof getCurrentUser === 'function') {
+    currentUser = getCurrentUser();
+    esMayorista = currentUser?.tipo_cliente === 'mayorista';
+  }
+
+  loadProducts();
   updateCartCount();
   renderCart();
 };
 </script>
-
-</body>
-</html>
-
