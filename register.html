@@ -1,56 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Registrarse - MAC Garden</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<title>Registro – MAC Garden</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="auth.js" defer></script>
+<style>
+/* puedes copiar el mismo estilo de login para que se vea igual */
+:root{
+  --blue:#0A4FFF;
+  --green:#0AD18C;
+  --dark:#033e1b;
+  --bg:#ffffff;
+  --muted:#f1fbf6;
+}
+*{box-sizing:border-box;font-family:Inter,Arial,sans-serif;}
+body{margin:0;background:var(--bg);color:var(--dark);}
+header{
+  background:linear-gradient(90deg,var(--blue),var(--green));
+  padding:16px;
+  text-align:center;
+}
+header img{height:120px;}
+.site-title{margin:0;color:white;font-size:32px;font-weight:800;}
+nav{
+  background:var(--muted);
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:25px;
+  font-weight:600;
+}
+.nav-left a{
+  text-decoration:none;
+  color:var(--dark);
+  font-size:16px;
+  margin-right:18px;
+}
+#nav-user{margin-right:12px;}
+.main{
+  max-width:480px;
+  margin:30px auto;
+  padding:20px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
+}
+.main h2{text-align:center;margin-top:0;}
+.form-group{margin-bottom:14px;}
+label{display:block;font-size:14px;margin-bottom:4px;}
+input, select, textarea{
+  width:100%;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid #d0e4d9;
+}
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:var(--green);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:10px;
+}
+button:hover{opacity:.9;}
+.small-link{text-align:center;margin-top:10px;font-size:14px;}
+.small-link a{color:var(--blue);text-decoration:none;}
+</style>
 </head>
 <body>
-
-<header class="header">
-  <img src="img/logo.svg" class="logo">
+<header>
+  <img src="img/logo.svg" alt="MAC Garden">
   <h1 class="site-title">MAC Garden</h1>
 </header>
 
-<div class="form-container">
-  <h2>Registrar Usuario</h2>
+<nav>
+  <div class="nav-left">
+    <a href="index.html">Inicio</a>
+    <a href="services.html">Servicios</a>
+    <a href="about.html">Nosotros</a>
+    <a href="index.html#productos">Productos</a>
+    <a href="contact.html">Contacto</a>
+  </div>
+  <div id="nav-user"></div>
+</nav>
 
-  <input id="nombre" type="text" placeholder="Nombre">
-  <input id="email" type="email" placeholder="Correo">
-  <input id="telefono" type="text" placeholder="Teléfono">
-  <input id="password" type="password" placeholder="Contraseña">
-  <input id="ciudad" type="text" placeholder="Ciudad">
+<div class="main">
+  <h2>Crear cuenta</h2>
+  <form id="register-form">
+    <div class="form-group">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
 
-  <button onclick="registrar()">Crear cuenta</button>
+    <div class="form-group">
+      <label for="email">Correo</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input type="text" id="telefono" name="telefono">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+
+    <div class="form-group">
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" name="direccion">
+    </div>
+
+    <div class="form-group">
+      <label for="ciudad">Ciudad</label>
+      <input type="text" id="ciudad" name="ciudad">
+    </div>
+
+    <div class="form-group">
+      <label for="tipo_cliente">Tipo de cliente</label>
+      <select id="tipo_cliente" name="tipo_cliente">
+        <option value="minorista">Minorista</option>
+        <option value="mayorista">Mayorista</option>
+      </select>
+    </div>
+
+    <button type="submit">Registrarme</button>
+  </form>
+
+  <div class="small-link">
+    ¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a>
+  </div>
 </div>
-
-<script>
-function registrar(){
-  const data = {
-    nombre: document.getElementById("nombre").value,
-    email: document.getElementById("email").value,
-    telefono: document.getElementById("telefono").value,
-    ciudad: document.getElementById("ciudad").value,
-    password: document.getElementById("password").value,
-    tipo_cliente: "minorista"
-  };
-
-  fetch("http://localhost:3000/api/usuarios/registro", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-  .then(res => {
-    if(res.success){
-      alert("Cuenta creada!");
-      window.location.href = "login.html";
-    } else {
-      alert(res.error);
-    }
-  })
-}
-</script>
 
 </body>
 </html>
