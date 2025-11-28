@@ -443,7 +443,11 @@ footer{
      JAVASCRIPT - PRODUCTOS + CARRITO
      ========================= -->
 <script>
-// ===== PRODUCTOS DESDE LA API =====
+// Usamos la API_BASE que define auth.js si existe
+const API_URL = (typeof API_BASE !== 'undefined')
+  ? API_BASE
+  : 'http://localhost:3000/api';
+
 let products = [];
 let currentUser = null;
 let esMayorista = false;
@@ -455,30 +459,38 @@ function saveCart(){
   localStorage.setItem("mac_cart", JSON.stringify(cart));
 }
 
-// Cargar productos y variantes desde backend
+// Cargar productos y variantes desde el backend
 async function loadProducts() {
   try {
-    const res = await fetch("http://localhost:3000/api/productos");
+    const res = await fetch(`${API_URL}/productos`);
     const productosBase = await res.json();
 
     const productosFinal = [];
 
     for (const p of productosBase) {
-      const vr = await fetch(`http://localhost:3000/api/productos/${p.id}/variantes`);
+      const vr = await fetch(`${API_URL}/productos/${p.id}/variantes`);
       const variantes = await vr.json();
+
+      const base = Number(p.precio_base || 0);
+
+      const opciones = variantes.length > 0
+        ? variantes.map(v => {
+            const adicional = Number(v.precio || 0); // 'precio' viene del alias en el server
+            return {
+              nombre: v.nombre_variante,
+              precio_final: base + adicional
+            };
+          })
+        : [{
+            nombre: "Estándar",
+            precio_final: base
+          }];
 
       productosFinal.push({
         id: p.id,
         name: p.nombre,
-        price_base: Number(p.precio_base),
         img: p.imagen_principal || "img/placeholder.jpg",
-
-        opciones: variantes.length > 0
-          ? variantes.map(v => ({
-              nombre: v.nombre_variante,
-              adicional: Number(v.precio)
-            }))
-          : [{ nombre: "Estándar", adicional: 0 }]
+        opciones
       });
     }
 
@@ -490,27 +502,24 @@ async function loadProducts() {
   }
 }
 
-
-
 // RENDERIZAR PRODUCTOS
 function renderProducts(){
   const grid = document.getElementById('product-grid');
   grid.innerHTML = '';
 
   products.forEach(p => {
-
     const variantesHTML = p.opciones
       .map(v => `
-        <option value="${v.nombre}" data-adicional="${v.adicional}">
-          ${v.nombre} ${v.adicional > 0 ? "(+RD$" + v.adicional + ")" : ""}
+        <option value="${v.nombre}" data-precio="${v.precio_final}">
+          ${v.nombre} — RD$${v.precio_final}
         </option>
       `)
       .join("");
 
-    const precioInicial = p.price_base + p.opciones[0].adicional;
-
     const div = document.createElement('div');
     div.className = 'card';
+
+    const precioInicial = p.opciones[0].precio_final;
 
     div.innerHTML = `
       <img src="${p.img}">
@@ -522,36 +531,31 @@ function renderProducts(){
 
       <p class="price" id="price-${p.id}">RD$${precioInicial}</p>
 
-      <button class='btn' onclick='addToCart(${p.id})'>Agregar al carrito</button>
+      <button class="btn" onclick="addToCart(${p.id})">Agregar al carrito</button>
     `;
 
     grid.appendChild(div);
   });
 }
 
-
-
-// ACTUALIZAR PRECIO AL CAMBIAR VARIANTE
+// Actualizar precio cuando cambia la variante
 function updatePrice(id){
-  const prod = products.find(p => p.id === id);
   const select = document.getElementById(`opt-${id}`);
-  const adicional = Number(select.selectedOptions[0].dataset.adicional);
-
-  const precioFinal = prod.price_base + adicional;
-
-  document.getElementById(`price-${id}`).innerText = "RD$" + precioFinal;
+  if (!select) return;
+  const precio = Number(select.options[select.selectedIndex].dataset.precio || 0);
+  document.getElementById(`price-${id}`).innerText = "RD$" + precio;
 }
-
-
 
 // AGREGAR AL CARRITO
 function addToCart(id){
   const prod = products.find(p => p.id === id);
-  const select = document.getElementById(`opt-${id}`);
+  if (!prod) return;
 
-  const varianteNombre = select.value;
-  const adicional = Number(select.selectedOptions[0].dataset.adicional);
-  const precioFinal = prod.price_base + adicional;
+  const select = document.getElementById(`opt-${id}`);
+  const varianteNombre = select ? select.value : "Estándar";
+  const precioVariante = select
+    ? Number(select.options[select.selectedIndex].dataset.precio || 0)
+    : prod.opciones[0].precio_final;
 
   const item = cart.find(i => i.id === id && i.variante === varianteNombre);
 
@@ -562,18 +566,16 @@ function addToCart(id){
       id: id,
       name: prod.name,
       variante: varianteNombre,
-      precio: precioFinal,   // 🔥 ahora sí existe
+      precio: precioVariante, // número
       cantidad: 1
     });
   }
 
-  saveCart();
   updateCartCount();
   renderCart();
+  saveCart();
   animateCartIcon();
 }
-
-
 
 // RENDERIZAR CARRITO
 function renderCart(){
@@ -583,9 +585,9 @@ function renderCart(){
   box.innerHTML = '';
   let total = 0;
 
-  cart.forEach((item, i) => {
-
-    const subtotal = item.precio * item.cantidad;
+  cart.forEach((item,i)=>{
+    const price = Number(item.precio || 0);
+    const subtotal = item.cantidad * price;
     total += subtotal;
 
     const div = document.createElement('div');
@@ -595,18 +597,16 @@ function renderCart(){
       <span>
         <strong>${item.name}</strong><br>
         <small>Variante: ${item.variante}</small><br>
-        <small>Precio: RD$${item.precio}</small><br>
+        <small>Precio: RD$${price}</small><br>
         <small>Cantidad: ${item.cantidad}</small><br>
         <strong>Subtotal: RD$${subtotal}</strong>
       </span>
-
       <div class="qty-controls">
-        <button onclick="changeQty(${i}, -1)">➖</button>
-        <button onclick="changeQty(${i}, 1)">➕</button>
+        <button onclick="changeQty(${i},-1)">➖</button>
+        <button onclick="changeQty(${i},1)">➕</button>
         <button onclick="removeItem(${i})">❌</button>
       </div>
     `;
-
     box.appendChild(div);
   });
 
@@ -614,30 +614,24 @@ function renderCart(){
   updateWhatsApp();
 }
 
-
-
 // CAMBIAR CANTIDAD
 function changeQty(i, amount){
   cart[i].cantidad += amount;
   if(cart[i].cantidad <= 0){
-    cart.splice(i, 1);
+    cart.splice(i,1);
   }
-  saveCart();
   updateCartCount();
   renderCart();
+  saveCart();
 }
-
-
 
 // ELIMINAR ITEM
 function removeItem(i){
-  cart.splice(i, 1);
-  saveCart();
+  cart.splice(i,1);
   updateCartCount();
   renderCart();
+  saveCart();
 }
-
-
 
 // CONTADOR DEL ICONO
 function updateCartCount(){
@@ -645,12 +639,11 @@ function updateCartCount(){
   document.getElementById('cart-count').innerText = total;
 }
 
-
-
 // WHATSAPP
 function updateWhatsApp(){
+  const link = document.getElementById("cart-whatsapp");
   if(!cart.length){
-    document.getElementById("cart-whatsapp").href = "https://wa.me/18496079790";
+    link.href = "https://wa.me/18496079790";
     return;
   }
 
@@ -658,7 +651,9 @@ function updateWhatsApp(){
     `• ${i.name} (${i.variante}) — ${i.cantidad} unidad(es) - RD$${i.precio}`
   ).join("%0A");
 
-  const total = cart.reduce((sum,i)=>sum + (i.precio * i.cantidad), 0);
+  const total = cart.reduce((sum,i)=>
+    sum + (Number(i.precio || 0) * i.cantidad)
+  ,0);
 
   const url =
     `https://wa.me/18496079790?text=` +
@@ -666,17 +661,13 @@ function updateWhatsApp(){
       `Hola, quiero ordenar:\n\n${msg}\n\nTotal: RD$${total}`
     );
 
-  document.getElementById("cart-whatsapp").href = url;
+  link.href = url;
 }
-
-
 
 // MOSTRAR / OCULTAR CARRITO
 function toggleCart(){
   document.getElementById("cart-panel").classList.toggle("open");
 }
-
-
 
 // Animación icono carrito
 function animateCartIcon(){
@@ -685,13 +676,11 @@ function animateCartIcon(){
   setTimeout(()=>icon.classList.remove("pulse"),300);
 }
 
-
-
 // INICIO
 window.onload = ()=>{
   if (typeof getCurrentUser === 'function') {
     currentUser = getCurrentUser();
-    esMayorista = currentUser?.tipo_cliente === 'mayorista';
+    esMayorista = !!(currentUser && currentUser.tipo_cliente === 'mayorista');
   }
 
   loadProducts();
@@ -699,3 +688,9 @@ window.onload = ()=>{
   renderCart();
 };
 </script>
+
+
+</body>
+</html>
+
+

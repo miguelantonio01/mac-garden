@@ -90,6 +90,9 @@ app.get('/api/productos/:id', async (req, res) => {
 // =============================================
 // GET: Variantes de un producto
 // =============================================
+// =============================================
+// GET: Variantes de un producto
+// =============================================
 app.get('/api/productos/:id/variantes', async (req, res) => {
     try {
         const productoId = req.params.id;
@@ -98,7 +101,7 @@ app.get('/api/productos/:id/variantes', async (req, res) => {
             SELECT 
                 id,
                 nombre_variante,
-                precio_adicional AS precio,
+                precio_adicional,
                 stock,
                 activo
             FROM variantes_producto
@@ -112,6 +115,7 @@ app.get('/api/productos/:id/variantes', async (req, res) => {
         res.status(500).json({ error: "Error obteniendo variantes" });
     }
 });
+
 
 
 // =============================================
