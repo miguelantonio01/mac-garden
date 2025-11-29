@@ -443,11 +443,18 @@ footer{
      JAVASCRIPT - PRODUCTOS + CARRITO
      ========================= -->
 <script>
-// Usamos la API_BASE que define auth.js si existe
-const API_URL = (typeof API_BASE !== 'undefined')
-  ? API_BASE
-  : 'http://localhost:3000/api';
+// ===== UTIL: precio del ítem según estructura vieja/nueva =====
+function getItemPrice(item){
+  if (typeof item.precio_unitario === 'number') return item.precio_unitario;
+  if (typeof item.price === 'number') return item.price;
+  if (typeof item.price === 'string'){
+    const num = Number(item.price.replace('RD$',''));
+    if (!isNaN(num)) return num;
+  }
+  return 0;
+}
 
+// ===== PRODUCTOS DESDE LA API =====
 let products = [];
 let currentUser = null;
 let esMayorista = false;
@@ -462,43 +469,80 @@ function saveCart(){
 // Cargar productos y variantes desde el backend
 async function loadProducts() {
   try {
-    const res = await fetch(`${API_URL}/productos`);
+    console.log("⏳ Cargando productos desde API...");
+    const res = await fetch("http://localhost:3000/api/productos");
+    if (!res.ok) throw new Error("Respuesta no OK de /api/productos");
+
     const productosBase = await res.json();
+    console.log("Respuesta de /api/productos:", productosBase);
+
+    if (!Array.isArray(productosBase) || productosBase.length === 0) {
+      throw new Error("No hay productos activos en la BD");
+    }
 
     const productosFinal = [];
 
     for (const p of productosBase) {
-      const vr = await fetch(`${API_URL}/productos/${p.id}/variantes`);
+      const base = Number(p.precio_base) || 0;
+
+      const vr = await fetch(`http://localhost:3000/api/productos/${p.id}/variantes`);
+      if (!vr.ok) throw new Error("Respuesta no OK de /api/productos/:id/variantes");
       const variantes = await vr.json();
-
-      const base = Number(p.precio_base || 0);
-
-      const opciones = variantes.length > 0
-        ? variantes.map(v => {
-            const adicional = Number(v.precio || 0); // 'precio' viene del alias en el server
-            return {
-              nombre: v.nombre_variante,
-              precio_final: base + adicional
-            };
-          })
-        : [{
-            nombre: "Estándar",
-            precio_final: base
-          }];
+      console.log(`Variantes de producto ${p.id}:`, variantes);
 
       productosFinal.push({
         id: p.id,
         name: p.nombre,
+        price_base: base,
         img: p.imagen_principal || "img/placeholder.jpg",
-        opciones
+        opciones: Array.isArray(variantes) && variantes.length > 0
+          ? variantes.map(v => {
+              const adicional = Number(v.precio) || 0; // precio_adicional AS precio
+              return {
+                nombre: v.nombre_variante,
+                precio: base + adicional
+              };
+            })
+          : [{
+              nombre: "Estándar",
+              precio: base
+            }]
       });
     }
 
     products = productosFinal;
+    console.log("✅ Productos finales:", products);
     renderProducts();
 
   } catch (e) {
-    console.error("Error cargando productos:", e);
+    console.error("❌ Error cargando productos desde API. Usando catálogo básico:", e);
+
+    // Fallback si algo falla
+    if (!products || products.length === 0){
+      products = [
+        {
+          id:1,
+          name:"Buganvilia fucsia",
+          img:"img/buganvilia_fucsia.jpg",
+          opciones:[
+            {nombre:"Pequeño",precio:25},
+            {nombre:"Mediano",precio:35},
+            {nombre:"Grande",precio:45}
+          ]
+        },
+        {
+          id:2,
+          name:"Buganvilia blanca",
+          img:"img/buganvilia_blanca.jpg",
+          opciones:[
+            {nombre:"Pequeño",precio:25},
+            {nombre:"Mediano",precio:35},
+            {nombre:"Grande",precio:45}
+          ]
+        }
+      ];
+    }
+    renderProducts();
   }
 }
 
@@ -508,18 +552,17 @@ function renderProducts(){
   grid.innerHTML = '';
 
   products.forEach(p => {
+
     const variantesHTML = p.opciones
-      .map(v => `
-        <option value="${v.nombre}" data-precio="${v.precio_final}">
-          ${v.nombre} — RD$${v.precio_final}
+      .map((v, idx) => `
+        <option value="${idx}" data-precio="${v.precio}">
+          ${v.nombre} — RD$${v.precio}
         </option>
       `)
       .join("");
 
     const div = document.createElement('div');
     div.className = 'card';
-
-    const precioInicial = p.opciones[0].precio_final;
 
     div.innerHTML = `
       <img src="${p.img}">
@@ -529,20 +572,19 @@ function renderProducts(){
         ${variantesHTML}
       </select>
 
-      <p class="price" id="price-${p.id}">RD$${precioInicial}</p>
+      <p class="price" id="price-${p.id}">RD$${p.opciones[0].precio}</p>
 
-      <button class="btn" onclick="addToCart(${p.id})">Agregar al carrito</button>
+      <button class='btn' onclick='addToCart(${p.id})'>Agregar al carrito</button>
     `;
 
     grid.appendChild(div);
   });
 }
 
-// Actualizar precio cuando cambia la variante
 function updatePrice(id){
   const select = document.getElementById(`opt-${id}`);
   if (!select) return;
-  const precio = Number(select.options[select.selectedIndex].dataset.precio || 0);
+  const precio = select.options[select.selectedIndex].dataset.precio;
   document.getElementById(`price-${id}`).innerText = "RD$" + precio;
 }
 
@@ -552,10 +594,11 @@ function addToCart(id){
   if (!prod) return;
 
   const select = document.getElementById(`opt-${id}`);
-  const varianteNombre = select ? select.value : "Estándar";
-  const precioVariante = select
-    ? Number(select.options[select.selectedIndex].dataset.precio || 0)
-    : prod.opciones[0].precio_final;
+  const idx = select ? Number(select.value) : 0;
+  const varianteObj = prod.opciones[idx] || prod.opciones[0];
+
+  const varianteNombre = varianteObj.nombre;
+  const precioVariante = Number(varianteObj.precio) || 0;
 
   const item = cart.find(i => i.id === id && i.variante === varianteNombre);
 
@@ -566,7 +609,7 @@ function addToCart(id){
       id: id,
       name: prod.name,
       variante: varianteNombre,
-      precio: precioVariante, // número
+      precio_unitario: precioVariante,
       cantidad: 1
     });
   }
@@ -579,21 +622,21 @@ function addToCart(id){
 
 // RENDERIZAR CARRITO
 function renderCart(){
-  const box = document.getElementById('cart-items');
-  const totalBox = document.getElementById('cart-total');
+  const box=document.getElementById('cart-items');
+  const totalBox=document.getElementById('cart-total');
 
-  box.innerHTML = '';
-  let total = 0;
+  box.innerHTML='';
+  let total=0;
 
   cart.forEach((item,i)=>{
-    const price = Number(item.precio || 0);
+    const price = getItemPrice(item);
     const subtotal = item.cantidad * price;
     total += subtotal;
 
-    const div = document.createElement('div');
-    div.className = 'cart-item fade-in';
+    const div=document.createElement('div');
+    div.className='cart-item fade-in';
 
-    div.innerHTML = `
+    div.innerHTML=`
       <span>
         <strong>${item.name}</strong><br>
         <small>Variante: ${item.variante}</small><br>
@@ -641,19 +684,19 @@ function updateCartCount(){
 
 // WHATSAPP
 function updateWhatsApp(){
-  const link = document.getElementById("cart-whatsapp");
   if(!cart.length){
-    link.href = "https://wa.me/18496079790";
+    document.getElementById("cart-whatsapp").href = "https://wa.me/18496079790";
     return;
   }
 
-  const msg = cart.map(i =>
-    `• ${i.name} (${i.variante}) — ${i.cantidad} unidad(es) - RD$${i.precio}`
-  ).join("%0A");
+  const msg = cart.map(i => {
+    const price = getItemPrice(i);
+    return `• ${i.name} (${i.variante}) — ${i.cantidad} unidad(es) - RD$${price}`;
+  }).join("%0A");
 
-  const total = cart.reduce((sum,i)=>
-    sum + (Number(i.precio || 0) * i.cantidad)
-  ,0);
+  const total = cart.reduce((sum,i)=>{
+    return sum + (getItemPrice(i) * i.cantidad);
+  },0);
 
   const url =
     `https://wa.me/18496079790?text=` +
@@ -661,7 +704,7 @@ function updateWhatsApp(){
       `Hola, quiero ordenar:\n\n${msg}\n\nTotal: RD$${total}`
     );
 
-  link.href = url;
+  document.getElementById("cart-whatsapp").href = url;
 }
 
 // MOSTRAR / OCULTAR CARRITO
@@ -678,6 +721,7 @@ function animateCartIcon(){
 
 // INICIO
 window.onload = ()=>{
+  // detectar usuario actual desde auth.js si existe
   if (typeof getCurrentUser === 'function') {
     currentUser = getCurrentUser();
     esMayorista = !!(currentUser && currentUser.tipo_cliente === 'mayorista');
@@ -689,8 +733,6 @@ window.onload = ()=>{
 };
 </script>
 
-
 </body>
 </html>
-
 
